@@ -11,4 +11,4 @@ include_directories(algorithms)
 add_subdirectory(algorithms)
 add_subdirectory(unit_tests)
 
-#target_link_libraries(nnco algorithms)
+target_link_libraries(nnco algorithms)
