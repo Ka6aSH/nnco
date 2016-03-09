@@ -4,9 +4,11 @@
 
 class Point {
 public:
-    Point(int, double *vector);
+    Point(int dimension, double *vector) : dimension(dimension), vector(vector) { }
 
     ~Point(void);
+
+    double getCoord(int dim);
 
     int getDimension() const { return dimension; }
 
