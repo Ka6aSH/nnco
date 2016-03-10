@@ -14,19 +14,19 @@ public:
     KdNode(Point *point, KdNode *left = nullptr, KdNode *right = nullptr)
             : point(point), left(left), right(right) { }
 
-    bool isLeaf();
+    bool is_leaf();
 
-    double getCoord(int dim);
+    double get_coord(int dim);
 
-    Point *getPoint() const { return point; }
+    Point *get_point() const { return point; }
 
-    KdNode *getLeft() const { return left; }
+    KdNode *get_left() const { return left; }
 
-    void setLeft(KdNode *left) { KdNode::left = left; }
+    void set_left(KdNode *left) { KdNode::left = left; }
 
-    KdNode *getRight() const { return right; }
+    KdNode *get_right() const { return right; }
 
-    void setRight(KdNode *right) { KdNode::right = right; }
+    void set_right(KdNode *right) { KdNode::right = right; }
 
 private:
     Point *point;

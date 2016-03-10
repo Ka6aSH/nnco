@@ -7,7 +7,7 @@
 
 class Metrics {
 public:
-    static double euclidean_distance(Point* p1, Point* p2);
+    static double GetEuclideanDistance(Point *p1, Point *p2);
 };
 
 

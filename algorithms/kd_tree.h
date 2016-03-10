@@ -11,9 +11,9 @@
  */
 class KdTree {
 public:
-    static KdNode *buildTree(std::vector<Point *> *points, int axis, int dimension);
+    static KdNode *BuildTree(std::vector<Point *> *points, int axis, int dimension);
 
-    static int selectKth(std::vector<Point *> *points, int k, int dim);
+    static int SelectKth(std::vector<Point *> *points, int k, int dim);
 };
 
 

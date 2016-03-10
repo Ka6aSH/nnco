@@ -1,6 +1,6 @@
 #include "point.h"
 
-double Point::dot(const Point *point) const {
+double Point::Dot(const Point *point) const {
     double res = 0;
     double* another_vector =  point->vector;
     for (int i = 0; i < dimension; ++i) {
@@ -9,7 +9,7 @@ double Point::dot(const Point *point) const {
     return res;
 }
 
-double Point::getCoord(int dim) {
+double Point::get_coord(int dim) {
     return vector[dim % dimension];
 }
 

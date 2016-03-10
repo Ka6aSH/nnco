@@ -8,13 +8,13 @@ public:
 
     ~Point(void);
 
-    double getCoord(int dim);
+    double get_coord(int dim);
 
-    int getDimension() const { return dimension; }
+    int get_dim() const { return dimension; }
 
-    double *getVector() const { return vector; }
+    double *get_vec() const { return vector; }
 
-    double dot(const Point *) const;
+    double Dot(const Point *) const;
 
 private:
     int dimension;

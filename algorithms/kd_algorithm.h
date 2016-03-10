@@ -14,8 +14,8 @@ public:
     KdAlgorithm() { }
     virtual ~KdAlgorithm();
 
-    void init(std::vector<Point*>* points);
-    virtual Point *Ann(Point*);
+    void Init(std::vector<Point *> *points);
+    virtual Point *Ann(Point *);
 private:
     KdNode* root;
     int dimension;
