@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include <kd_node.h>
 #include <kd_tree.h>
+#include <kd_algorithm.h>
 
 bool traverse_tree_less(KdNode *node, int axis, double median);
 bool traverse_tree_greater(KdNode *node, int axis, double median);
@@ -43,14 +44,14 @@ TEST(kd_structure, kd_tree_selectKth_sorting) {
 }
 
 TEST(kd_structure, kd_tree_build) {
-    std::vector<Point *> v{new Point(4, new double[2]{1, 1}),
-                           new Point(4, new double[2]{1, -1}),
-                           new Point(4, new double[2]{-1, 1}),
-                           new Point(4, new double[2]{-1, -1}),
-                           new Point(4, new double[2]{2, 2}),
-                           new Point(4, new double[2]{2, -2}),
-                           new Point(4, new double[2]{-2, 2}),
-                           new Point(4, new double[2]{-2, -2})};
+    std::vector<Point *> v{new Point(2, new double[2]{1, 1}),
+                           new Point(2, new double[2]{1, -1}),
+                           new Point(2, new double[2]{-1, 1}),
+                           new Point(2, new double[2]{-1, -1}),
+                           new Point(2, new double[2]{2, 2}),
+                           new Point(2, new double[2]{2, -2}),
+                           new Point(2, new double[2]{-2, 2}),
+                           new Point(2, new double[2]{-2, -2})};
     KdNode* root = KdTree::buildTree(&v, 0, 2);
     // Check one root
     double median_0 = root->getCoord(0);
@@ -78,3 +79,23 @@ bool traverse_tree_greater(KdNode *node, int axis, double median) {
     return point && left && right;
 }
 
+TEST(kd_algorithm, sanity) {
+    std::vector<Point *> v{new Point(2, new double[2]{1, 1}),
+                           new Point(2, new double[2]{1, -1}),
+                           new Point(2, new double[2]{-1, 1}),
+                           new Point(2, new double[2]{-1, -1}),
+                           new Point(2, new double[2]{2, 2}),
+                           new Point(2, new double[2]{2, -2}),
+                           new Point(2, new double[2]{-2, 2}),
+                           new Point(2, new double[2]{-2, -2})};
+    KdAlgorithm alg;
+    alg.init(&v);
+    Point p1(2, new double[2]{0.5, 0.5});
+    EXPECT_EQ(v.at(0), alg.Ann(&p1));
+    Point p2(2, new double[2]{-5, -5});
+    EXPECT_EQ(v.at(7), alg.Ann(&p2));
+    Point p3(2, new double[2]{-2, 0.5});
+    EXPECT_EQ(v.at(2), alg.Ann(&p3));
+    Point p4(2, new double[2]{1, -0.0001});
+    EXPECT_EQ(v.at(1), alg.Ann(&p4));
+}
