@@ -2,11 +2,12 @@
 #include <point.h>
 #include <vp_tree.h>
 #include <metrics.h>
+#include <vp_algorithm.h>
 
 bool traverse_tree_less(VpNode *node, Point *vantage_point, double median);
 
 bool traverse_tree_greater(VpNode *node, Point *vantage_point, double median);
-
+//TODO fix memory leak
 TEST(vp_structure, vp_median) {
     std::vector<Point *> v{new Point(2, new double[2]{1, 1}),
                            new Point(2, new double[2]{1, -1}),
@@ -91,4 +92,25 @@ bool traverse_tree_greater(VpNode *node, Point *vantage_point, double median) {
     bool right = (node->get_outside_node() == nullptr
                   || traverse_tree_greater(node->get_outside_node(), vantage_point, median));
     return point && left && right;
+}
+
+TEST(vp_algorithm, sanity) {
+    std::vector<Point *> v{new Point(2, new double[2]{1, 1}),
+                           new Point(2, new double[2]{1, -1}),
+                           new Point(2, new double[2]{-1, 1}),
+                           new Point(2, new double[2]{-1, -1}),
+                           new Point(2, new double[2]{2, 2}),
+                           new Point(2, new double[2]{2, -2}),
+                           new Point(2, new double[2]{-2, 2}),
+                           new Point(2, new double[2]{-2, -2})};
+    VpAlgorithm alg;
+    alg.Init(&v);
+    Point p1(2, new double[2]{0.5, 0.5});
+    EXPECT_EQ(v.at(0), alg.Ann(&p1));
+    Point p2(2, new double[2]{-5, -5});
+    EXPECT_EQ(v.at(7), alg.Ann(&p2));
+    Point p3(2, new double[2]{-2, 0.5});
+    EXPECT_EQ(v.at(2), alg.Ann(&p3));
+    Point p4(2, new double[2]{1, -0.0001});
+    EXPECT_EQ(v.at(1), alg.Ann(&p4));
 }

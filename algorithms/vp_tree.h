@@ -14,6 +14,8 @@ public:
     static std::pair<int, double> FindDistances(std::vector<Point *> *points, Point *median);
 
     static int SelectKth(std::vector<Point *> *points, double *distances, int k);
+
+    // TODO func to delete tree recursively
 };
 
 
