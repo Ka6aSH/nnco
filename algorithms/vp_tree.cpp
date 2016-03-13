@@ -64,3 +64,13 @@ std::pair<int, double> VpTree::FindDistances(std::vector<Point *> *points, Point
     int kth_idx = VpTree::SelectKth(points, distances, points->size() / 2);
     return std::pair<int, double>{kth_idx, distances[kth_idx]};
 }
+
+void VpTree::FreeNodes(VpNode *root) {
+    if (root == nullptr)
+        return;
+
+    VpTree::FreeNodes(root->get_inside_node());
+    VpTree::FreeNodes(root->get_outside_node());
+
+    delete root;
+}

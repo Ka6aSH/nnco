@@ -15,7 +15,7 @@ public:
 
     static int SelectKth(std::vector<Point *> *points, double *distances, int k);
 
-    // TODO func to delete tree recursively
+    static void FreeNodes(VpNode* root);
 };
 
 

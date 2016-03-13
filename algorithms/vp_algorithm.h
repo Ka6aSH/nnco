@@ -21,7 +21,7 @@ public:
     virtual Point *Ann(Point *);
 
 private:
-    VpNode *root;
+    VpNode *root = nullptr;
 
     void NnsProblem(VpNode *root, Point *p, std::pair<VpNode *, double> *best);
 };

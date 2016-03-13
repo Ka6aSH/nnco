@@ -4,8 +4,7 @@ void VpAlgorithm::Init(std::vector<Point *> *points) {
     if (points == nullptr || points->empty())
         return;
     if (VpAlgorithm::root != nullptr)
-        // TODO memory leak
-        delete VpAlgorithm::root;
+        VpTree::FreeNodes(root);
     std::vector<Point *> copy(*points);
     VpAlgorithm::root = VpTree::BuildTree(&copy);
 }
@@ -46,5 +45,5 @@ void VpAlgorithm::NnsProblem(VpNode *root, Point *q, std::pair<VpNode *, double>
 }
 
 VpAlgorithm::~VpAlgorithm() {
-    delete VpAlgorithm::root;
+    VpTree::FreeNodes(root);
 }
