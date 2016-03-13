@@ -3,8 +3,12 @@
 #include <kd_tree.h>
 #include <kd_algorithm.h>
 
-bool traverse_tree_less(KdNode *node, int axis, double median);
-bool traverse_tree_greater(KdNode *node, int axis, double median);
+bool TraverseTreeLess(KdNode *node, int axis, double median);
+
+bool TraverseTreeGreater(KdNode *node, int axis, double median);
+
+template<typename T>
+void FreeVec(std::vector<T> *vec);
 
 TEST(kd_structure, kd_node_leaf) {
     Point p(2, new double[1, 2]);
@@ -26,6 +30,8 @@ TEST(kd_structure, kd_tree_selectKth) {
                            new Point(1, new double[1]{0}), new Point(1, new double[1]{6})};
     KdTree::SelectKth(&v, v.size() / 2, 0);
     EXPECT_EQ(v.at(v.size() / 2)->get_coord(0), 3);
+
+    FreeVec(&v);
 }
 
 TEST(kd_structure, kd_tree_selectKth_sorting) {
@@ -41,6 +47,8 @@ TEST(kd_structure, kd_tree_selectKth_sorting) {
         EXPECT_LE(v.at(i)->get_coord(0), median);
     for (int i = index; i < v.size(); ++i)
         EXPECT_GE(v.at(i)->get_coord(0), median);
+
+    FreeVec(&v);
 }
 
 TEST(kd_structure, kd_tree_build) {
@@ -52,30 +60,34 @@ TEST(kd_structure, kd_tree_build) {
                            new Point(2, new double[2]{2, -2}),
                            new Point(2, new double[2]{-2, 2}),
                            new Point(2, new double[2]{-2, -2})};
-    KdNode* root = KdTree::BuildTree(&v, 0, 2);
+    KdNode *root = KdTree::BuildTree(&v, 0, 2);
     // Check one root
     double median_0 = root->get_coord(0);
-    EXPECT_TRUE(traverse_tree_less(root->get_left(), 0, median_0));
-    EXPECT_TRUE(traverse_tree_greater(root->get_right(), 0, median_0));
-    // Check one level deepper
+    EXPECT_TRUE(TraverseTreeLess(root->get_left(), 0, median_0));
+    EXPECT_TRUE(TraverseTreeGreater(root->get_right(), 0, median_0));
+    // Check one level deeper
     double median_1_l = root->get_left()->get_coord(1);
     double median_1_r = root->get_right()->get_coord(1);
-    EXPECT_TRUE(traverse_tree_less(root->get_left()->get_left(), 1, median_1_l));
-    EXPECT_TRUE(traverse_tree_greater(root->get_left()->get_right(), 1, median_1_l));
-    EXPECT_TRUE(traverse_tree_less(root->get_right()->get_left(), 1, median_1_r));
-    EXPECT_TRUE(traverse_tree_greater(root->get_right()->get_right(), 1, median_1_r));
+    EXPECT_TRUE(TraverseTreeLess(root->get_left()->get_left(), 1, median_1_l));
+    EXPECT_TRUE(TraverseTreeGreater(root->get_left()->get_right(), 1, median_1_l));
+    EXPECT_TRUE(TraverseTreeLess(root->get_right()->get_left(), 1, median_1_r));
+    EXPECT_TRUE(TraverseTreeGreater(root->get_right()->get_right(), 1, median_1_r));
+
+    KdTree::FreeNodes(root);
+    FreeVec(&v);
 }
 
-bool traverse_tree_less(KdNode *node, int axis, double median) {
+bool TraverseTreeLess(KdNode *node, int axis, double median) {
     bool point = node->get_coord(axis) <= median;
-    bool left = (node->get_left() == nullptr || traverse_tree_less(node->get_left(), axis, median));
-    bool right = (node->get_right() == nullptr || traverse_tree_less(node->get_right(), axis, median));
+    bool left = (node->get_left() == nullptr || TraverseTreeLess(node->get_left(), axis, median));
+    bool right = (node->get_right() == nullptr || TraverseTreeLess(node->get_right(), axis, median));
     return point && left && right;
 }
-bool traverse_tree_greater(KdNode *node, int axis, double median) {
+
+bool TraverseTreeGreater(KdNode *node, int axis, double median) {
     bool point = node->get_coord(axis) >= median;
-    bool left = (node->get_left() == nullptr || traverse_tree_greater(node->get_left(), axis, median));
-    bool right = (node->get_right() == nullptr || traverse_tree_greater(node->get_right(), axis, median));
+    bool left = (node->get_left() == nullptr || TraverseTreeGreater(node->get_left(), axis, median));
+    bool right = (node->get_right() == nullptr || TraverseTreeGreater(node->get_right(), axis, median));
     return point && left && right;
 }
 
@@ -98,4 +110,12 @@ TEST(kd_algorithm, sanity) {
     EXPECT_EQ(v.at(2), alg.Ann(&p3));
     Point p4(2, new double[2]{1, -0.0001});
     EXPECT_EQ(v.at(1), alg.Ann(&p4));
+
+    FreeVec(&v);
+}
+
+template<typename T>
+void FreeVec(std::vector<T> *vec) {
+    for (int i = 0; i < vec->size(); ++i)
+        delete vec->at(i);
 }
