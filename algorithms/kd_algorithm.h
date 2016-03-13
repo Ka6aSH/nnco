@@ -18,7 +18,7 @@ public:
     void Init(std::vector<Point *> *points);
     virtual Point *Ann(Point *);
 private:
-    KdNode* root;
+    KdNode* root = nullptr;
     int dimension;
 
     void NnsProblem(KdNode *root, Point *p, std::pair<KdNode *, double> *best, int axis);
