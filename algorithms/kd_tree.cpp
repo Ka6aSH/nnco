@@ -50,3 +50,21 @@ int KdTree::SelectKth(std::vector<Point *> *points, int k, int dim) {
     }
     return k;
 }
+
+void KdTree::FreeNodes(KdNode *root) {
+    if (root == nullptr)
+        return;
+
+    if (root->get_left() != nullptr && root->get_left()->is_leaf())
+        delete root->get_left();
+    else
+        KdTree::FreeNodes(root->get_left());
+
+    if (root->get_right() != nullptr && root->get_right()->is_leaf())
+        delete root->get_right();
+    else
+        KdTree::FreeNodes(root->get_right());
+
+    delete root;
+}
+

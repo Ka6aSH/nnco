@@ -14,6 +14,8 @@ public:
     static KdNode *BuildTree(std::vector<Point *> *points, int axis, int dimension);
 
     static int SelectKth(std::vector<Point *> *points, int k, int dim);
+
+    static void FreeNodes(KdNode* root);
 };
 
 

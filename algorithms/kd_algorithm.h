@@ -1,6 +1,7 @@
 #ifndef NNCO_KD_ALGORITHM_H
 #define NNCO_KD_ALGORITHM_H
 
+
 #include <algorithm>
 #include <c++/bits/stl_vector.h>
 #include <c++/bits/stl_pair.h>
@@ -20,7 +21,7 @@ private:
     KdNode* root;
     int dimension;
 
-    void nnsProblem(KdNode* root, Point* p, std::pair<KdNode*, double>* best, int axis);
+    void NnsProblem(KdNode *root, Point *p, std::pair<KdNode *, double> *best, int axis);
 };
 
 

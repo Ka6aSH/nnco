@@ -4,18 +4,19 @@ void KdAlgorithm::Init(std::vector<Point *> *points) {
     if (points == nullptr || points->empty())
         return;
     if (KdAlgorithm::root != nullptr)
-        delete KdAlgorithm::root;
+        KdTree::FreeNodes(KdAlgorithm::root);
     KdAlgorithm::dimension = points->at(0)->get_dim();
-    KdAlgorithm::root = KdTree::BuildTree(new std::vector<Point *>(*points), 0, KdAlgorithm::dimension);
+    std::vector<Point *> copy(*points);
+    KdAlgorithm::root = KdTree::BuildTree(&copy, 0, KdAlgorithm::dimension);
 }
 
 Point *KdAlgorithm::Ann(Point *point) {
     std::pair<KdNode *, double> result{nullptr, -1};
-    nnsProblem(KdAlgorithm::root, point, &result, 0);
+    NnsProblem(KdAlgorithm::root, point, &result, 0);
     return result.first->get_point();
 }
 
-void KdAlgorithm::nnsProblem(KdNode *root, Point *query, std::pair<KdNode *, double> *best, int axis) {
+void KdAlgorithm::NnsProblem(KdNode *root, Point *query, std::pair<KdNode *, double> *best, int axis) {
     if (root == nullptr) {
         return;
     }
@@ -28,20 +29,20 @@ void KdAlgorithm::nnsProblem(KdNode *root, Point *query, std::pair<KdNode *, dou
     }
     axis = (axis + 1) % KdAlgorithm::dimension;
     if (dx > 0) {
-        nnsProblem(root->get_left(), query, best, axis);
+        NnsProblem(root->get_left(), query, best, axis);
     } else {
-        nnsProblem(root->get_right(), query, best, axis);
+        NnsProblem(root->get_right(), query, best, axis);
     }
     if (dx2 >= best->second) {
         return;
     }
     if (dx > 0) {
-        nnsProblem(root->get_right(), query, best, axis);
+        NnsProblem(root->get_right(), query, best, axis);
     } else {
-        nnsProblem(root->get_left(), query, best, axis);
+        NnsProblem(root->get_left(), query, best, axis);
     }
 }
 
 KdAlgorithm::~KdAlgorithm() {
-    delete KdAlgorithm::root;
+    KdTree::FreeNodes(KdAlgorithm::root);
 }
