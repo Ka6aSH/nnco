@@ -2,9 +2,6 @@
 #define NNCO_KD_ALGORITHM_H
 
 
-#include <algorithm>
-#include <c++/bits/stl_vector.h>
-#include <c++/bits/stl_pair.h>
 #include "ialgorithm.h"
 #include "kd_node.h"
 #include "kd_tree.h"

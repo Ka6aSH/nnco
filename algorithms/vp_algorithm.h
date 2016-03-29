@@ -2,9 +2,6 @@
 #define NNCO_VP_ALGORITHM_H
 
 
-#include <algorithm>
-#include <c++/bits/stl_vector.h>
-#include <c++/bits/stl_pair.h>
 #include "ialgorithm.h"
 #include "vp_node.h"
 #include "vp_tree.h"

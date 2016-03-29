@@ -1,11 +1,11 @@
 #ifndef NNCO_VP_TREE_H
 #define NNCO_VP_TREE_H
 
-
-#include <algorithm>
-#include <c++/bits/stl_vector.h>
+#include <c++/cstdlib>
+#include <c++/vector>
 #include "point.h"
 #include "vp_node.h"
+#include "metrics.h"
 
 class VpTree {
 public:

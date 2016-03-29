@@ -1,5 +1,4 @@
 #include "vp_tree.h"
-#include "metrics.h"
 
 VpNode *VpTree::BuildTree(std::vector<Point *> *points) {
     if (points->empty()) {
