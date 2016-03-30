@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 #include <point.h>
 #include <vp_tree.h>
-#include <metrics.h>
 #include <vp_algorithm.h>
 
 bool TraverseTreeLess(VpNode *node, Point *vantage_point, double median);
