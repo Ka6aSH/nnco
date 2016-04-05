@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include <point.h>
 #include <bbf_node.h>
+#include <bbf_algorithm.h>
 
 class BbfTreeTest : public ::testing::Test {
 private:
@@ -105,6 +106,17 @@ TEST_F(BbfTreeTest, paranting) {
     EXPECT_TRUE(rootNode->IsParent(rootNode->get_right_node()->get_right_node()));
     // Check neighbor subtrees
     EXPECT_FALSE(rootNode->get_left_node()->IsParent(rootNode->get_right_node()));
-    // Check negobour subtree through the level
+    // Check neighbor subtree through the level
     EXPECT_FALSE(rootNode->get_left_node()->IsParent(rootNode->get_right_node()->get_left_node()));
+}
+
+TEST_F(BbfTreeTest, search) {
+    BbfAlgorithm alg;
+    alg.Init(v, v->size());
+    Point p1(2, new double[2]{0, 0});
+    EXPECT_EQ(v->at(7), alg.Ann(&p1));
+    Point p2(2, new double[2]{-1, -1});
+    EXPECT_EQ(v->at(5), alg.Ann(&p2));
+    Point p3(2, new double[2]{4, 1});
+    EXPECT_EQ(v->at(6), alg.Ann(&p3));
 }
