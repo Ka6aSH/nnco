@@ -21,11 +21,19 @@ public:
 
     int get_sep_axis() const { return m; }
 
+    double get_sep_coord() const { return median; }
+
     int get_deep() const { return deep; }
+
+    double get_lbb(int dim, bool max) { return lbb[dim][max]; }
+
+    double get_tbb(int dim, bool max) { return tbb[dim][max]; }
 
     BbfNode *get_left_node() const { return leftNode; }
 
     BbfNode *get_right_node() const { return rightNode; }
+
+    BbfNode *get_parent_node() const { return parent; }
 
     const std::vector<Point *> *get_node_points() const { return &nodePoints; }
 

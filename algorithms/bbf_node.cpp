@@ -93,9 +93,8 @@ void BbfNode::SplitNode() {
 }
 
 bool BbfNode::IsParent(BbfNode *node) {
-    BbfNode* temp = node;
-    while (temp != nullptr)
-    {
+    BbfNode *temp = node;
+    while (temp != nullptr) {
         if (temp->parent == this)
             return true;
         temp = temp->parent;
@@ -106,7 +105,7 @@ bool BbfNode::IsParent(BbfNode *node) {
 BbfNode::~BbfNode(void) {
     delete leftNode;
     delete rightNode;
-    for (int i = 0; i < BbfNode::dim; ++ i) {
+    for (int i = 0; i < BbfNode::dim; ++i) {
         delete[] tbb[i];
         delete[] lbb[i];
     }

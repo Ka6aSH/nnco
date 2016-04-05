@@ -5,7 +5,7 @@
 class BbfTreeTest : public ::testing::Test {
 private:
     void FreeVec(std::vector<Point *> *vec) {
-        for (int i = 0; i < vec->size(); ++i)
+        for (size_t i = 0; i < vec->size(); ++i)
             delete vec->at(i);
     }
 
@@ -34,7 +34,7 @@ protected:
     }
 
     const int kLeafPoints = 3;
-    BbfNode* rootNode;
+    BbfNode *rootNode;
     std::vector<Point *> *v;
 };
 
