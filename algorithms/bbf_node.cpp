@@ -107,15 +107,15 @@ BbfNode::~BbfNode(void) {
     delete rightNode;
 
     if (parent != nullptr) {
-        delete lbb[parent->m];
+        delete[] lbb[parent->m];
     } else {
         for (int i = 0; i < BbfNode::dim; ++i) {
-            delete lbb[i];
+            delete[] lbb[i];
         }
     }
 
     for (int i = 0; i < BbfNode::dim; ++i) {
-        delete tbb[i];
+        delete[] tbb[i];
     }
     delete[] tbb;
     delete[] lbb;
