@@ -105,9 +105,17 @@ bool BbfNode::IsParent(BbfNode *node) {
 BbfNode::~BbfNode(void) {
     delete leftNode;
     delete rightNode;
+
+    if (parent != nullptr) {
+        delete lbb[parent->m];
+    } else {
+        for (int i = 0; i < BbfNode::dim; ++i) {
+            delete lbb[i];
+        }
+    }
+
     for (int i = 0; i < BbfNode::dim; ++i) {
-        delete[] tbb[i];
-        delete[] lbb[i];
+        delete tbb[i];
     }
     delete[] tbb;
     delete[] lbb;
