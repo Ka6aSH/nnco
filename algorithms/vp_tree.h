@@ -13,7 +13,7 @@ public:
 
     static std::pair<int, double> FindDistances(std::vector<Point *> *points, Point *median);
 
-    static int SelectKth(std::vector<Point *> *points, double *distances, int k);
+    static size_t SelectKth(std::vector<Point *> *points, double *distances, size_t k);
 
     static void FreeNodes(VpNode* root);
 };

@@ -23,7 +23,7 @@ TEST(vp_structure, vp_median) {
     double distance = Metrics::GetEuclideanDistance(&median, v.at(4));
     Point *p1 = v.at(4), *p2 = v.at(5);
     std::pair<int, double> result = VpTree::FindDistances(&v, &median);
-    Point *result_point = v.at(result.first);
+    Point *result_point = v.at(static_cast<size_t>(result.first));
 
     EXPECT_TRUE(result_point == p1 || result_point == p2);
     EXPECT_DOUBLE_EQ(distance, result.second);
@@ -128,6 +128,6 @@ TEST(vp_algorithm, sanity) {
 
 template<typename T>
 void FreeVec(std::vector<T> *vec) {
-    for (int i = 0; i < vec->size(); ++i)
+    for (size_t i = 0; i < vec->size(); ++i)
         delete vec->at(i);
 }

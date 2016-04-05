@@ -8,7 +8,7 @@ VpNode *VpTree::BuildTree(std::vector<Point *> *points) {
             return new VpNode(points->at(0));
         }
     }
-    int random_idx = std::rand() % points->size();
+    size_t random_idx = std::rand() % points->size();
     std::swap(points->at(random_idx), points->at(0));
     Point *vantage_point = points->at(0);
     std::vector<Point *> other_points(points->begin() + 1, points->end());
@@ -21,7 +21,7 @@ VpNode *VpTree::BuildTree(std::vector<Point *> *points) {
                       VpTree::BuildTree(&outside));
 }
 
-int VpTree::SelectKth(std::vector<Point *> *points, double *distances, int k) {
+size_t VpTree::SelectKth(std::vector<Point *> *points, double *distances, size_t k) {
     int from = 0;
     int to = points->size() - 1;
     int r;
@@ -57,7 +57,7 @@ int VpTree::SelectKth(std::vector<Point *> *points, double *distances, int k) {
 
 std::pair<int, double> VpTree::FindDistances(std::vector<Point *> *points, Point *median) {
     double distances[points->size()];
-    for (int i = 0; i < points->size(); ++i) {
+    for (size_t i = 0; i < points->size(); ++i) {
         distances[i] = Metrics::GetEuclideanDistance(points->at(i), median);
     }
     int kth_idx = VpTree::SelectKth(points, distances, points->size() / 2);

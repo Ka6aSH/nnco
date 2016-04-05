@@ -8,7 +8,7 @@ KdNode *KdTree::BuildTree(std::vector<Point *> *points, int axis, int dimension)
             return new KdNode(points->at(0));
         }
     }
-    int median_index = SelectKth(points, (int) (points->size() / 2), axis);
+    size_t median_index = SelectKth(points, points->size() / 2, axis);
     int next_axis = (axis + 1) % dimension;
     std::vector<Point*> left_list(points->begin(), points->begin() + median_index);
     std::vector<Point*> right_list(points->begin() + median_index + 1, points->end());
@@ -18,7 +18,7 @@ KdNode *KdTree::BuildTree(std::vector<Point *> *points, int axis, int dimension)
     return result_node;
 }
 
-int KdTree::SelectKth(std::vector<Point *> *points, int k, int dim) {
+size_t KdTree::SelectKth(std::vector<Point *> *points, size_t k, int dim) {
     int from = 0;
     int to = points->size() - 1;
     int r;

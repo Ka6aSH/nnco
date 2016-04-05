@@ -22,6 +22,7 @@ public:
 };
 
 class BbfAlgorithm : public IAlgorithm {
+public:
     BbfAlgorithm() : root(nullptr) { }
 
     void Init(std::vector<Point *> *points, int node_number);

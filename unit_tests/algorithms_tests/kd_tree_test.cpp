@@ -42,7 +42,7 @@ TEST(kd_structure, kd_tree_selectKth_sorting) {
                            new Point(1, new double[1]{6}), new Point(1, new double[1]{2}),
                            new Point(1, new double[1]{1}), new Point(1, new double[1]{6})};
     int index = KdTree::SelectKth(&v, v.size() / 2, 0);
-    double median = v.at(index)->get_coord(0);
+    double median = v.at(v.size() / 2)->get_coord(0);
     for (int i = 0; i < index; ++i)
         EXPECT_LE(v.at(i)->get_coord(0), median);
     for (int i = index; i < v.size(); ++i)
@@ -116,6 +116,6 @@ TEST(kd_algorithm, sanity) {
 
 template<typename T>
 void FreeVec(std::vector<T> *vec) {
-    for (int i = 0; i < vec->size(); ++i)
+    for (size_t i = 0; i < vec->size(); ++i)
         delete vec->at(i);
 }

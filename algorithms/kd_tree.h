@@ -3,6 +3,7 @@
 
 
 #include <c++/vector>
+#include <c++/cstdlib>
 #include "kd_node.h"
 
 /**
@@ -12,7 +13,7 @@ class KdTree {
 public:
     static KdNode *BuildTree(std::vector<Point *> *points, int axis, int dimension);
 
-    static int SelectKth(std::vector<Point *> *points, int k, int dim);
+    static size_t SelectKth(std::vector<Point *> *points, size_t k, int dim);
 
     static void FreeNodes(KdNode* root);
 };
