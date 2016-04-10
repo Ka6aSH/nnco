@@ -4,6 +4,7 @@
 
 #include <c++/vector>
 #include <c++/map>
+#include <c++/algorithm>
 #include <c++/unordered_map>
 #include "point.h"
 #include "lsh_hash_function.h"

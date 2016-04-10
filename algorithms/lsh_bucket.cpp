@@ -1,4 +1,3 @@
-#include <c++/algorithm>
 #include "lsh_bucket.h"
 
 LshBucket::LshBucket(int k, int d) {
