@@ -1,8 +1,11 @@
 #ifndef NNCO_VP_TREE_H
 #define NNCO_VP_TREE_H
 
+
 #include <c++/cstdlib>
 #include <c++/vector>
+#include <c++/algorithm>
+#include <c++/unordered_map>
 #include "point.h"
 #include "vp_node.h"
 #include "metrics.h"
@@ -13,9 +16,7 @@ public:
 
     static std::pair<int, double> FindDistances(std::vector<Point *> *points, Point *median);
 
-    static size_t SelectKth(std::vector<Point *> *points, double *distances, size_t k);
-
-    static void FreeNodes(VpNode* root);
+    static void FreeNodes(VpNode *root);
 };
 
 

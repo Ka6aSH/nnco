@@ -21,36 +21,6 @@ TEST(kd_structure, kd_node_leaf) {
     EXPECT_FALSE(test_node.is_leaf());
 }
 
-TEST(kd_structure, kd_tree_selectKth) {
-    std::vector<Point *> v{new Point(1, new double[1]{1}), new Point(1, new double[1]{5}),
-                           new Point(1, new double[1]{1}), new Point(1, new double[1]{7}),
-                           new Point(1, new double[1]{8}), new Point(1, new double[1]{3}),
-                           new Point(1, new double[1]{4}), new Point(1, new double[1]{1}),
-                           new Point(1, new double[1]{3}), new Point(1, new double[1]{2}),
-                           new Point(1, new double[1]{0}), new Point(1, new double[1]{6})};
-    KdTree::SelectKth(&v, v.size() / 2, 0);
-    EXPECT_EQ(v.at(v.size() / 2)->get_coord(0), 3);
-
-    FreeVec(&v);
-}
-
-TEST(kd_structure, kd_tree_selectKth_sorting) {
-    std::vector<Point *> v{new Point(1, new double[1]{1}), new Point(1, new double[1]{9}),
-                           new Point(1, new double[1]{0}), new Point(1, new double[1]{7}),
-                           new Point(1, new double[1]{8}), new Point(1, new double[1]{3}),
-                           new Point(1, new double[1]{4}), new Point(1, new double[1]{5}),
-                           new Point(1, new double[1]{6}), new Point(1, new double[1]{2}),
-                           new Point(1, new double[1]{1}), new Point(1, new double[1]{6})};
-    int index = KdTree::SelectKth(&v, v.size() / 2, 0);
-    double median = v.at(v.size() / 2)->get_coord(0);
-    for (int i = 0; i < index; ++i)
-        EXPECT_LE(v.at(i)->get_coord(0), median);
-    for (int i = index; i < v.size(); ++i)
-        EXPECT_GE(v.at(i)->get_coord(0), median);
-
-    FreeVec(&v);
-}
-
 TEST(kd_structure, kd_tree_build) {
     std::vector<Point *> v{new Point(2, new double[2]{1, 1}),
                            new Point(2, new double[2]{1, -1}),

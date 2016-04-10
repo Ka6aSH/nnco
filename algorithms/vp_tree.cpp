@@ -21,47 +21,16 @@ VpNode *VpTree::BuildTree(std::vector<Point *> *points) {
                       VpTree::BuildTree(&outside));
 }
 
-size_t VpTree::SelectKth(std::vector<Point *> *points, double *distances, size_t k) {
-    int from = 0;
-    int to = points->size() - 1;
-    int r;
-    int w;
-    double mid;
-    while (from < to) {
-        // init
-        r = from;
-        w = to;
-        mid = distances[(r + w) / 2];
-
-        while (r < w) {
-            if (distances[r] >= mid) {
-                std::swap(points->at(w), points->at(r));
-                std::swap(distances[w], distances[r]);
-                w--;
-            } else {
-                r++;
-            }
-        }
-
-        if (distances[r] > mid) {
-            r--;
-        }
-        if (k <= r) {
-            to = r;
-        } else {
-            from = r + 1;
-        }
-    }
-    return k;
-}
-
 std::pair<int, double> VpTree::FindDistances(std::vector<Point *> *points, Point *median) {
-    double distances[points->size()];
+    std::unordered_map<Point *, double> distances;
     for (size_t i = 0; i < points->size(); ++i) {
-        distances[i] = Metrics::GetEuclideanDistance(points->at(i), median);
+        distances[points->at(i)] = Metrics::GetEuclideanDistance(points->at(i), median);
     }
-    int kth_idx = VpTree::SelectKth(points, distances, points->size() / 2);
-    return std::pair<int, double>{kth_idx, distances[kth_idx]};
+    std::nth_element(points->begin(), points->begin() + points->size() / 2, points->end(),
+                     [&distances](Point *lhs, Point *rhs) {
+                         return distances[lhs] < distances[rhs];
+                     });
+    return std::pair<int, double>{points->size() / 2, distances[points->at(points->size() / 2)]};
 }
 
 void VpTree::FreeNodes(VpNode *root) {
