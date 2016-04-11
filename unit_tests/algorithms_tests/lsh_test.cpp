@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include <lsh_hash_function.h>
 #include <lsh_bucket.h>
+#include <lsh_algorithm.h>
 
 TEST(lsh_hash_function, near_points) {
     LshHashFunction func(2);
@@ -49,5 +50,30 @@ TEST(lsh_buckets, sanity) {
     EXPECT_EQ(list->size(), 2);
     EXPECT_EQ(list->at(0), &p2);
     EXPECT_EQ(list->at(1), &p3);
+}
+
+// Test with random, sometimes could fail
+TEST(lsh_algorithm, sanity) {
+    std::vector<Point *> v{new Point(2, new double[2]{1, 1}),
+                           new Point(2, new double[2]{1, -1}),
+                           new Point(2, new double[2]{-1, 1}),
+                           new Point(2, new double[2]{-1, -1}),
+                           new Point(2, new double[2]{2, 2}),
+                           new Point(2, new double[2]{2, -2}),
+                           new Point(2, new double[2]{-2, 2}),
+                           new Point(2, new double[2]{-2, -2})};
+    LshAlgorithm alg;
+    alg.Init(&v);
+    Point p1(2, new double[2]{0.5, 0.5});
+    EXPECT_EQ(v.at(0), alg.Ann(&p1));
+    Point p2(2, new double[2]{-5, -5});
+    EXPECT_EQ(v.at(7), alg.Ann(&p2));
+    Point p3(2, new double[2]{-2, 0.5});
+    EXPECT_EQ(v.at(2), alg.Ann(&p3));
+    Point p4(2, new double[2]{1, -0.0001});
+    EXPECT_EQ(v.at(1), alg.Ann(&p4));
+
+    for (int i = 0; i < v.size(); ++i)
+        delete v[i];
 }
 
