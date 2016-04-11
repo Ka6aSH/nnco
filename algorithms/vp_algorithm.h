@@ -3,7 +3,6 @@
 
 
 #include "ialgorithm.h"
-#include "vp_node.h"
 #include "vp_tree.h"
 #include "metrics.h"
 
@@ -11,11 +10,11 @@ class VpAlgorithm : public IAlgorithm {
 public:
     VpAlgorithm() { }
 
-    virtual ~VpAlgorithm();
-
-    void Init(std::vector<Point *> *points);
+    virtual void Init(std::vector<Point *> *points);
 
     virtual Point *Ann(Point *);
+
+    ~VpAlgorithm();
 
 private:
     VpNode *root = nullptr;

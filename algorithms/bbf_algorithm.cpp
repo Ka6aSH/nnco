@@ -61,11 +61,13 @@ void BbfAlgorithm::PushIfBetter(std::priority_queue<Triple, std::vector<Triple>,
     }
 }
 
-void BbfAlgorithm::Init(std::vector<Point *> *points, int node_number) {
+void BbfAlgorithm::Init(std::vector<Point *> *points) {
     if (BbfAlgorithm::root != nullptr)
         delete BbfAlgorithm::root;
-    BbfAlgorithm::root = new BbfNode(points);
-    BbfAlgorithm::node_count = node_number;
+    BbfAlgorithm::root = new BbfNode(points, leaf_points);
+    if (node_count < 0) {
+        node_count = points->size();
+    }
 }
 
 Point *BbfAlgorithm::Ann(Point *q) {

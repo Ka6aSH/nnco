@@ -23,9 +23,11 @@ public:
 
 class BbfAlgorithm : public IAlgorithm {
 public:
-    BbfAlgorithm() : root(nullptr) { }
+    BbfAlgorithm(int leaf_points = 10, int node_number = -1) : root(nullptr),
+                                                               node_count(node_number),
+                                                               leaf_points(leaf_points) { };
 
-    void Init(std::vector<Point *> *points, int node_number);
+    virtual void Init(std::vector<Point *> *points);
 
     virtual Point *Ann(Point *q);
 
@@ -34,6 +36,7 @@ public:
 private:
     BbfNode *root;
     int node_count;
+    int leaf_points;
 
     BbfNode *FindLeaf(Point *q);
 

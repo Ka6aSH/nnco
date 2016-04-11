@@ -9,16 +9,17 @@
 
 class LshAlgorithm : public IAlgorithm {
 public:
-    LshAlgorithm() { };
+    LshAlgorithm(int buckets = 0, int functions = 0) : buckets_number(buckets), functions_number(functions) { };
 
-    ~LshAlgorithm();
-
-    void Init(std::vector<Point *> *points);
+    virtual void Init(std::vector<Point *> *points);
 
     virtual Point *Ann(Point *q);
 
+    ~LshAlgorithm();
+
 private:
-    int bucketsNumber;
+    int functions_number;
+    int buckets_number;
     LshBucket **buckets = nullptr;
 };
 

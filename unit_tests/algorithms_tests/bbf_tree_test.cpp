@@ -112,7 +112,7 @@ TEST_F(BbfTreeTest, paranting) {
 
 TEST_F(BbfTreeTest, search) {
     BbfAlgorithm alg;
-    alg.Init(v, v->size());
+    alg.Init(v);
     Point p1(2, new double[2]{0, 0});
     EXPECT_EQ(v->at(7), alg.Ann(&p1));
     Point p2(2, new double[2]{-1, -1});

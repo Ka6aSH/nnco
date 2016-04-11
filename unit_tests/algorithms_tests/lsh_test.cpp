@@ -52,7 +52,6 @@ TEST(lsh_buckets, sanity) {
     EXPECT_EQ(list->at(1), &p3);
 }
 
-// Test with random, sometimes could fail
 TEST(lsh_algorithm, sanity) {
     std::vector<Point *> v{new Point(2, new double[2]{1, 1}),
                            new Point(2, new double[2]{1, -1}),
@@ -62,7 +61,7 @@ TEST(lsh_algorithm, sanity) {
                            new Point(2, new double[2]{2, -2}),
                            new Point(2, new double[2]{-2, 2}),
                            new Point(2, new double[2]{-2, -2})};
-    LshAlgorithm alg;
+    LshAlgorithm alg(10, 10);
     alg.Init(&v);
     Point p1(2, new double[2]{0.5, 0.5});
     EXPECT_EQ(v.at(0), alg.Ann(&p1));

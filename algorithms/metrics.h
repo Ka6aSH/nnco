@@ -2,8 +2,8 @@
 #define NNCO_METRICS_H
 
 
-#include "point.h"
 #include <c++/cmath>
+#include "point.h"
 
 class Metrics {
 public:
