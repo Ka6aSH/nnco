@@ -44,5 +44,5 @@ LshAlgorithm::~LshAlgorithm() {
         for (int i = 0; i < buckets_number; ++i) {
             delete buckets[i];
         }
-    delete buckets;
+    delete[] buckets;
 }

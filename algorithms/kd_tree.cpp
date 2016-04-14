@@ -149,7 +149,7 @@ KdNode *KdTree::RemovePoint(KdNode *root, Point *point, int axis) {
             root->set_right(RemovePoint(root->get_left(), root->get_point(), next_axis));
             root->set_left(nullptr);
         } else {
-//            delete root;
+            delete root;
             return nullptr;
         }
     } else if (point->get_coord(axis) < root->get_coord(axis)) {
