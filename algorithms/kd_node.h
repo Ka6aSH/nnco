@@ -20,6 +20,8 @@ public:
 
     Point *get_point() const { return point; }
 
+    void set_point(Point *point) { KdNode::point = point; }
+
     KdNode *get_left() const { return left; }
 
     void set_left(KdNode *left) { KdNode::left = left; }

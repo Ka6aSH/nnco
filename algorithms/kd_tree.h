@@ -14,7 +14,18 @@ class KdTree {
 public:
     static KdNode *BuildTree(std::vector<Point *> *points, int axis, int dimension);
 
+    static void InsertPoint(KdNode *root, Point *point);
+
+    static KdNode *RemovePoint(KdNode *root, Point *point, int axis);
+
     static void FreeNodes(KdNode *root);
+
+private:
+    static Point *FindMin(KdNode *node, int cutting_axis, int current_axis);
+
+//    static Point *MinFunction(Point *p1, Point *p2, Point *p3, int dim);
+//
+//    static Point *MaxFunction(Point *p1, Point *p2, Point *p3, int dim);
 };
 
 

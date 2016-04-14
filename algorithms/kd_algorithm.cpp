@@ -43,6 +43,16 @@ void KdAlgorithm::NnsProblem(KdNode *root, Point *query, std::pair<KdNode *, dou
     }
 }
 
+void KdAlgorithm::InsertPoint(Point *point) {
+    if (root != nullptr) {
+        KdTree::InsertPoint(root, point);
+    }
+}
+
+void KdAlgorithm::RemovePoint(Point *point) {
+    KdTree::RemovePoint(root, point, 0);
+}
+
 KdAlgorithm::~KdAlgorithm() {
     KdTree::FreeNodes(KdAlgorithm::root);
 }
