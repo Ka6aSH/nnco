@@ -14,6 +14,10 @@ class VpTree {
 public:
     static VpNode *BuildTree(std::vector<Point *> *points);
 
+    static void InsertPoint(VpNode *root, Point *point);
+
+    static void RemovePoint(VpNode *root, Point *point);
+
     static std::pair<int, double> FindDistances(std::vector<Point *> *points, Point *median);
 
     static void FreeNodes(VpNode *root);

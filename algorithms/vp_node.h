@@ -12,8 +12,8 @@ class VpNode {
 
 public:
     VpNode(Point *p, double radius = 0, VpNode *inside = nullptr, VpNode *outside = nullptr)
-            : p(p), inside(inside), outside(outside), radius(radius) { }
-    
+            : p(p), inside(inside), outside(outside), radius(radius), dead(false) { }
+
     Point *get_point() const { return p; }
 
     double get_radius() const { return radius; }
@@ -28,11 +28,16 @@ public:
 
     void set_outside_node(VpNode *outside) { VpNode::outside = outside; }
 
+    bool is_dead() const { return dead; }
+
+    void set_dead(bool dead) { VpNode::dead = dead; }
+
 private:
     Point *p;
     VpNode *inside;
     VpNode *outside;
     double radius;
+    bool dead;
 };
 
 

@@ -21,6 +21,48 @@ VpNode *VpTree::BuildTree(std::vector<Point *> *points) {
                       VpTree::BuildTree(&outside));
 }
 
+void VpTree::InsertPoint(VpNode *root, Point *point) {
+    double distance = 0;
+    VpNode *temp = root;
+    VpNode *last = root;
+
+    while (temp != nullptr) {
+        last = temp;
+        distance = Metrics::GetEuclideanDistance(point, temp->get_point());
+        if (temp->get_radius() > distance) {
+            temp = temp->get_inside_node();
+        } else {
+            temp = temp->get_outside_node();
+        }
+    }
+
+    if (last->get_radius() == 0) {
+        last->set_radius(distance);
+    }
+
+    if (last->get_radius() > distance) {
+        last->set_inside_node(new VpNode(point));
+    } else {
+        last->set_outside_node(new VpNode(point));
+    }
+}
+
+void VpTree::RemovePoint(VpNode *root, Point *point) {
+    double distance = 0;
+    VpNode *temp = root;
+
+    while (temp->get_point() != point) {
+        distance = Metrics::GetEuclideanDistance(point, temp->get_point());
+        if (temp->get_radius() > distance) {
+            temp = temp->get_inside_node();
+        } else {
+            temp = temp->get_outside_node();
+        }
+    }
+
+    temp->set_dead(true);
+}
+
 std::pair<int, double> VpTree::FindDistances(std::vector<Point *> *points, Point *median) {
     std::unordered_map<Point *, double> distances;
     for (size_t i = 0; i < points->size(); ++i) {

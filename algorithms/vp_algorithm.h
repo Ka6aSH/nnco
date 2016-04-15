@@ -14,6 +14,10 @@ public:
 
     virtual Point *Ann(Point *);
 
+    virtual void InsertPoint(Point *point);
+
+    virtual void RemovePoint(Point *point);
+
     ~VpAlgorithm();
 
 private:

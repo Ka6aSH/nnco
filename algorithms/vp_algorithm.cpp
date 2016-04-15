@@ -10,9 +10,17 @@ void VpAlgorithm::Init(std::vector<Point *> *points) {
 }
 
 Point *VpAlgorithm::Ann(Point *point) {
-    std::pair<VpNode *, double> result{nullptr, -1};
+    std::pair<VpNode *, double> result{nullptr, std::numeric_limits<double>::max()};
     NnsProblem(VpAlgorithm::root, point, &result);
     return result.first->get_point();
+}
+
+void VpAlgorithm::InsertPoint(Point *point) {
+    VpTree::InsertPoint(root, point);
+}
+
+void VpAlgorithm::RemovePoint(Point *point) {
+    VpTree::RemovePoint(root, point);
 }
 
 void VpAlgorithm::NnsProblem(VpNode *root, Point *q, std::pair<VpNode *, double> *best) {
@@ -20,7 +28,7 @@ void VpAlgorithm::NnsProblem(VpNode *root, Point *q, std::pair<VpNode *, double>
         return;
     }
     double distance = Metrics::GetEuclideanDistance(root->get_point(), q);
-    if (best->first == nullptr || distance < best->second) {
+    if (!root->is_dead() && (best->first == nullptr || distance < best->second)) {
         best->first = root;
         best->second = distance;
     }
