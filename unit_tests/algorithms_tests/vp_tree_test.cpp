@@ -10,48 +10,8 @@ bool TraverseTreeGreater(VpNode *node, Point *vantage_point, double median);
 template<typename T>
 void FreeVec(std::vector<T> *vec);
 
-TEST(vp_structure, vp_median) {
-    std::vector<Point *> v{new Point(2, new double[2]{1, 1}),
-                           new Point(2, new double[2]{1, -1}),
-                           new Point(2, new double[2]{-1, 1}),
-                           new Point(2, new double[2]{-1, -1}),
-                           new Point(2, new double[2]{2, 2}),
-                           new Point(2, new double[2]{2, -2}),
-                           new Point(2, new double[2]{-2, 2}),
-                           new Point(2, new double[2]{-2, -2})};
-    Point median(2, new double[2]{0.5, 0});
-    double distance = Metrics::GetEuclideanDistance(&median, v.at(4));
-    Point *p1 = v.at(4), *p2 = v.at(5);
-    std::pair<int, double> result = VpTree::FindDistances(&v, &median);
-    Point *result_point = v.at(static_cast<size_t>(result.first));
-
-    EXPECT_TRUE(result_point == p1 || result_point == p2);
-    EXPECT_DOUBLE_EQ(distance, result.second);
-
-    FreeVec(&v);
-}
-
-TEST(vp_structure, vp_partial_sorting) {
-    std::vector<Point *> v{new Point(2, new double[2]{1, 1}),
-                           new Point(2, new double[2]{1, -1}),
-                           new Point(2, new double[2]{-1, 1}),
-                           new Point(2, new double[2]{-1, -1}),
-                           new Point(2, new double[2]{2, 2}),
-                           new Point(2, new double[2]{2, -2}),
-                           new Point(2, new double[2]{-2, 2}),
-                           new Point(2, new double[2]{-2, -2})};
-    Point median(2, new double[2]{0.5, 0});
-    std::pair<int, double> result = VpTree::FindDistances(&v, &median);
-
-    for (int i = 0; i < result.first; ++i)
-        EXPECT_LE(Metrics::GetEuclideanDistance(v.at(i), &median), result.second);
-    for (int i = result.first; i < v.size(); ++i)
-        EXPECT_GE(Metrics::GetEuclideanDistance(v.at(i), &median), result.second);
-
-    FreeVec(&v);
-}
-
 TEST(vp_structure, vp_tree_build) {
+    srand(time(NULL));
     std::vector<Point *> v{new Point(2, new double[2]{1, 1}),
                            new Point(2, new double[2]{1, -1}),
                            new Point(2, new double[2]{-1, 1}),
@@ -65,21 +25,6 @@ TEST(vp_structure, vp_tree_build) {
     double median_0 = root->get_radius();
     EXPECT_TRUE(TraverseTreeLess(root->get_inside_node(), root->get_point(), median_0 + 0.01));
     EXPECT_TRUE(TraverseTreeGreater(root->get_outside_node(), root->get_point(), median_0 - 0.01));
-    // Check one level deeper
-    double median_1_l = root->get_inside_node()->get_radius();
-    double median_1_r = root->get_outside_node()->get_radius();
-    EXPECT_TRUE(TraverseTreeLess(root->get_inside_node()->get_inside_node(),
-                                 root->get_inside_node()->get_point(),
-                                 median_1_l + 0.5));
-    EXPECT_TRUE(TraverseTreeGreater(root->get_inside_node()->get_outside_node(),
-                                    root->get_inside_node()->get_point(),
-                                    median_1_l - 0.5));
-    EXPECT_TRUE(TraverseTreeLess(root->get_outside_node()->get_inside_node(),
-                                 root->get_outside_node()->get_point(),
-                                 median_1_r + 0.5));
-    EXPECT_TRUE(TraverseTreeGreater(root->get_outside_node()->get_outside_node(),
-                                    root->get_outside_node()->get_point(),
-                                    median_1_r - 0.5));
 
     VpTree::FreeNodes(root);
     FreeVec(&v);
@@ -104,6 +49,7 @@ bool TraverseTreeGreater(VpNode *node, Point *vantage_point, double median) {
 }
 
 TEST(vp_structure, delete_point) {
+    srand(time(NULL));
     std::vector<Point *> v{new Point(2, new double[2]{1, 1}),
                            new Point(2, new double[2]{1, -1}),
                            new Point(2, new double[2]{-1, 1}),
@@ -135,6 +81,7 @@ TEST(vp_structure, delete_point) {
 }
 
 TEST(vp_structure, insert_point) {
+    srand(time(NULL));
     std::vector<Point *> v{new Point(2, new double[2]{1, 1}),
                            new Point(2, new double[2]{1, -1}),
                            new Point(2, new double[2]{-1, 1}),
@@ -168,6 +115,7 @@ TEST(vp_structure, insert_point) {
 }
 
 TEST(vp_algorithm, sanity) {
+    srand(time(NULL));
     std::vector<Point *> v{new Point(2, new double[2]{1, 1}),
                            new Point(2, new double[2]{1, -1}),
                            new Point(2, new double[2]{-1, 1}),

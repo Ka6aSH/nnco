@@ -10,9 +10,9 @@ public:
 
     virtual Point *Ann(Point *q) = 0;
 
-//    virtual void InsertPoint(Point *point) = 0;
+    virtual void InsertPoint(Point *point) = 0;
 
-//    virtual void RemovePoint(Point *) = 0;
+    virtual void RemovePoint(Point *point) = 0;
 };
 
 #endif //NNCO_IALGORITHM_H

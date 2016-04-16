@@ -13,10 +13,29 @@ KdNode *KdTree::BuildTree(std::vector<Point *> *points, int axis, int dimension)
                      [&axis](Point *lhs, Point *rhs) {
                          return lhs->get_coord(axis) < rhs->get_coord(axis);
                      });
+    Point *node_point = points->at(median_index);
+    double median = node_point->get_coord(axis);
     int next_axis = (axis + 1) % dimension;
-    std::vector<Point *> left_list(points->begin(), points->begin() + median_index);
-    std::vector<Point *> right_list(points->begin() + median_index + 1, points->end());
-    auto result_node = new KdNode(points->at(median_index),
+    std::vector<Point *> left_list;
+    std::vector<Point *> right_list;
+    for (size_t i = 0; i < median_index; ++i) {
+        Point *selected = points->at(i);
+        if (selected->get_coord(axis) < median) {
+            left_list.push_back(selected);
+        } else {
+            right_list.push_back(selected);
+        }
+    }
+    for (size_t i = median_index + 1; i < points->size(); ++i) {
+        Point *selected = points->at(i);
+        if (selected->get_coord(axis) < median) {
+            left_list.push_back(selected);
+        } else {
+            right_list.push_back(selected);
+        }
+    }
+
+    auto result_node = new KdNode(node_point,
                                   BuildTree(&left_list, next_axis, dimension),
                                   BuildTree(&right_list, next_axis, dimension));
     return result_node;

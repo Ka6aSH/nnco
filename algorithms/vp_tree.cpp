@@ -12,11 +12,21 @@ VpNode *VpTree::BuildTree(std::vector<Point *> *points) {
     std::swap(points->at(random_idx), points->at(0));
     Point *vantage_point = points->at(0);
     std::vector<Point *> other_points(points->begin() + 1, points->end());
-    std::pair<int, double> median = VpTree::FindDistances(&other_points, vantage_point);
-    std::vector<Point *> inside(other_points.begin(), other_points.begin() + median.first);
-    std::vector<Point *> outside(other_points.begin() + median.first, other_points.end());
+    std::pair<double, double *> median = VpTree::FindDistances(&other_points, vantage_point);
+    std::vector<Point *> inside;
+    std::vector<Point *> outside;
+    auto radius = median.first;
+    auto distances = median.second;
+    for (int i = 0; i < other_points.size(); ++i) {
+        if (distances[i] < radius) {
+            inside.push_back(other_points[i]);
+        } else {
+            outside.push_back(other_points[i]);
+        }
+    }
+    delete distances;
     return new VpNode(vantage_point,
-                      median.second,
+                      radius,
                       VpTree::BuildTree(&inside),
                       VpTree::BuildTree(&outside));
 }
@@ -63,16 +73,16 @@ void VpTree::RemovePoint(VpNode *root, Point *point) {
     temp->set_dead(true);
 }
 
-std::pair<int, double> VpTree::FindDistances(std::vector<Point *> *points, Point *median) {
-    std::unordered_map<Point *, double> distances;
+std::pair<double, double *> VpTree::FindDistances(std::vector<Point *> *points, Point *median) {
+    std::vector<double> local_distances(points->size());
+    double *external_distances = new double[points->size()];
     for (size_t i = 0; i < points->size(); ++i) {
-        distances[points->at(i)] = Metrics::GetEuclideanDistance(points->at(i), median);
+        external_distances[i] = local_distances[i] = Metrics::GetEuclideanDistance(points->at(i), median);
     }
-    std::nth_element(points->begin(), points->begin() + points->size() / 2, points->end(),
-                     [&distances](Point *lhs, Point *rhs) {
-                         return distances[lhs] < distances[rhs];
-                     });
-    return std::pair<int, double>{points->size() / 2, distances[points->at(points->size() / 2)]};
+    std::nth_element(local_distances.begin(),
+                     local_distances.begin() + local_distances.size() / 2,
+                     local_distances.end());
+    return std::pair<double, double *>{local_distances[local_distances.size() / 2], external_distances};
 }
 
 void VpTree::FreeNodes(VpNode *root) {

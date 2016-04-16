@@ -18,7 +18,7 @@ public:
 
     static void RemovePoint(VpNode *root, Point *point);
 
-    static std::pair<int, double> FindDistances(std::vector<Point *> *points, Point *median);
+    static std::pair<double, double *> FindDistances(std::vector<Point *> *points, Point *median);
 
     static void FreeNodes(VpNode *root);
 };
