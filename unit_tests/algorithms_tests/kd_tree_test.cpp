@@ -119,7 +119,7 @@ TEST(kd_structure, delete_point_1) {
     EXPECT_TRUE(TraverseTreeLess(kdn_root->get_left()->get_left(), 1, median_1_l));
     EXPECT_TRUE(TraverseTreeLess(kdn_root->get_right()->get_left(), 1, median_1_r));
     // Deleting
-    KdTree::RemovePoint(kdn_root, &p_root, 0);
+    KdTree::RemovePoint(kdn_root, &p_root);
     // Check kd-tree invariance after deleting
     median_0 = kdn_root->get_coord(0);
     EXPECT_TRUE(TraverseTreeLess(kdn_root->get_left(), 0, median_0));
@@ -132,45 +132,76 @@ TEST(kd_structure, delete_point_1) {
     KdTree::FreeNodes(kdn_root);
 }
 
-TEST(kd_structure, delete_point_2) {
-    // http://www.cs.umd.edu/class/spring2002/cmsc420-0401/pbasic.pdf
-    // Second tree
-    Point p_root(2, new double[2]{20, 20});
-    Point p0(2, new double[2]{10, 30});
-    Point p1(2, new double[2]{25, 50});
-    Point p2(2, new double[2]{35, 25});
-    Point p3(2, new double[2]{30, 45});
-    Point p4(2, new double[2]{55, 40});
-    Point p5(2, new double[2]{30, 35});
-    Point p6(2, new double[2]{45, 35});
-    Point p7(2, new double[2]{50, 30});
-    KdNode *kdn7 = new KdNode(&p7);
-    KdNode *kdn6 = new KdNode(&p6, nullptr, kdn7);
-    KdNode *kdn5 = new KdNode(&p5);
-    KdNode *kdn4 = new KdNode(&p4, kdn6);
-    KdNode *kdn3 = new KdNode(&p3, kdn5);
-    KdNode *kdn2 = new KdNode(&p2, kdn3, kdn4);
-    KdNode *kdn1 = new KdNode(&p1, kdn2);
-    KdNode *kdn0 = new KdNode(&p0);
-    KdNode *kdn_root = new KdNode(&p_root, kdn0, kdn1);
+//TEST(kd_structure, delete_point_2) {
+//    // http://www.cs.umd.edu/class/spring2002/cmsc420-0401/pbasic.pdf
+//    // Second tree
+//    Point p_root(2, new double[2]{20, 20});
+//    Point p0(2, new double[2]{10, 30});
+//    Point p1(2, new double[2]{25, 50});
+//    Point p2(2, new double[2]{35, 25});
+//    Point p3(2, new double[2]{30, 45});
+//    Point p4(2, new double[2]{55, 40});
+//    Point p5(2, new double[2]{30, 35});
+//    Point p6(2, new double[2]{45, 35});
+//    Point p7(2, new double[2]{50, 30});
+//    KdNode *kdn7 = new KdNode(&p7);
+//    KdNode *kdn6 = new KdNode(&p6, nullptr, kdn7);
+//    KdNode *kdn5 = new KdNode(&p5);
+//    KdNode *kdn4 = new KdNode(&p4, kdn6);
+//    KdNode *kdn3 = new KdNode(&p3, kdn5);
+//    KdNode *kdn2 = new KdNode(&p2, kdn3, kdn4);
+//    KdNode *kdn1 = new KdNode(&p1, kdn2);
+//    KdNode *kdn0 = new KdNode(&p0);
+//    KdNode *kdn_root = new KdNode(&p_root, kdn0, kdn1);
+//
+//    double median_0, median_1_r;
+//    // Check kd-tree invariance before deleting
+//    median_0 = kdn_root->get_coord(0);
+//    EXPECT_TRUE(TraverseTreeLess(kdn_root->get_left(), 0, median_0));
+//    EXPECT_TRUE(TraverseTreeGreater(kdn_root->get_right(), 0, median_0));
+//    // Check one level deeper
+//    median_1_r = kdn_root->get_right()->get_coord(1);
+//    EXPECT_TRUE(TraverseTreeLess(kdn_root->get_right()->get_left(), 1, median_1_r));
+//    // Deleting
+//    KdTree::RemovePoint(kdn_root, &p_root);
+//    // Check kd-tree invariance after deleting
+//    median_0 = kdn_root->get_coord(0);
+//    EXPECT_TRUE(TraverseTreeLess(kdn_root->get_left(), 0, median_0));
+//    EXPECT_TRUE(TraverseTreeGreater(kdn_root->get_right(), 0, median_0));
+//    median_1_r = kdn_root->get_right()->get_coord(1);
+//    EXPECT_TRUE(TraverseTreeGreater(kdn_root->get_right()->get_right(), 1, median_1_r));
+//    KdTree::FreeNodes(kdn_root);
+//}
 
-    double median_0, median_1_r;
-    // Check kd-tree invariance before deleting
-    median_0 = kdn_root->get_coord(0);
-    EXPECT_TRUE(TraverseTreeLess(kdn_root->get_left(), 0, median_0));
-    EXPECT_TRUE(TraverseTreeGreater(kdn_root->get_right(), 0, median_0));
-    // Check one level deeper
-    median_1_r = kdn_root->get_right()->get_coord(1);
-    EXPECT_TRUE(TraverseTreeLess(kdn_root->get_right()->get_left(), 1, median_1_r));
-    // Deleting
-    KdTree::RemovePoint(kdn_root, &p_root, 0);
-    // Check kd-tree invariance after deleting
-    median_0 = kdn_root->get_coord(0);
-    EXPECT_TRUE(TraverseTreeLess(kdn_root->get_left(), 0, median_0));
-    EXPECT_TRUE(TraverseTreeGreater(kdn_root->get_right(), 0, median_0));
-    median_1_r = kdn_root->get_right()->get_coord(1);
-    EXPECT_TRUE(TraverseTreeGreater(kdn_root->get_right()->get_right(), 1, median_1_r));
-    KdTree::FreeNodes(kdn_root);
+TEST(kd_structure, delete_point_2) {
+    std::vector<Point *> v{new Point(2, new double[2]{1, 1}),
+                           new Point(2, new double[2]{1, -1}),
+                           new Point(2, new double[2]{-1, 1}),
+                           new Point(2, new double[2]{-1, -1}),
+                           new Point(2, new double[2]{2, 2}),
+                           new Point(2, new double[2]{2, -2}),
+                           new Point(2, new double[2]{-2, 2}),
+                           new Point(2, new double[2]{-2, -2})};
+    KdAlgorithm alg;
+    alg.Init(&v);
+
+    alg.RemovePoint(v.at(0));
+    Point p1(2, new double[2]{0.5, 0.5});
+    EXPECT_NE(v.at(0), alg.Ann(&p1));
+
+    alg.RemovePoint(v.at(7));
+    Point p2(2, new double[2]{-5, -5});
+    EXPECT_NE(v.at(7), alg.Ann(&p2));
+
+    alg.RemovePoint(v.at(2));
+    Point p3(2, new double[2]{-2, 0.5});
+    EXPECT_NE(v.at(2), alg.Ann(&p3));
+
+    alg.RemovePoint(v.at(1));
+    Point p4(2, new double[2]{1, -0.0001});
+    EXPECT_NE(v.at(1), alg.Ann(&p4));
+
+    FreeVec(&v);
 }
 
 TEST(kd_structure, delete_point_3) {
@@ -196,7 +227,7 @@ TEST(kd_structure, delete_point_3) {
     EXPECT_TRUE(TraverseTreeLess(root->get_right()->get_left(), 1, median_1_r));
     EXPECT_TRUE(TraverseTreeGreater(root->get_right()->get_right(), 1, median_1_r));
     // Delete
-    KdTree::RemovePoint(root, root->get_point(), 0);
+    KdTree::RemovePoint(root, root->get_point());
     // Check after deleting
     median_0 = root->get_coord(0);
     EXPECT_TRUE(TraverseTreeLess(root->get_left(), 0, median_0));

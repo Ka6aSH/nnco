@@ -11,7 +11,7 @@ void KdAlgorithm::Init(std::vector<Point *> *points) {
 }
 
 Point *KdAlgorithm::Ann(Point *point) {
-    std::pair<KdNode *, double> result{nullptr, -1};
+    std::pair<KdNode *, double> result{nullptr, std::numeric_limits<double>().max()};
     NnsProblem(KdAlgorithm::root, point, &result, 0);
     return result.first->get_point();
 }
@@ -23,7 +23,7 @@ void KdAlgorithm::NnsProblem(KdNode *root, Point *query, std::pair<KdNode *, dou
     double d = Metrics::GetEuclideanDistance(root->get_point(), query);
     double dx = root->get_coord(axis) - query->get_coord(axis);
     double dx2 = dx * dx;
-    if (best->first == nullptr || d < best->second) {
+    if (!root->is_dead() && (best->first == nullptr || d < best->second)) {
         best->first = root;
         best->second = d;
     }
@@ -50,7 +50,7 @@ void KdAlgorithm::InsertPoint(Point *point) {
 }
 
 void KdAlgorithm::RemovePoint(Point *point) {
-    KdTree::RemovePoint(root, point, 0);
+    KdTree::RemovePoint(root, point);
 }
 
 KdAlgorithm::~KdAlgorithm() {

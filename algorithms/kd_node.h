@@ -12,7 +12,7 @@ class KdNode {
 
 public:
     KdNode(Point *point, KdNode *left = nullptr, KdNode *right = nullptr)
-            : point(point), left(left), right(right) { }
+            : point(point), left(left), right(right), dead(false) { }
 
     bool is_leaf();
 
@@ -30,10 +30,15 @@ public:
 
     void set_right(KdNode *right) { KdNode::right = right; }
 
+    bool is_dead() const { return dead; }
+
+    void set_dead(bool dead) { KdNode::dead = dead; }
+
 private:
     Point *point;
     KdNode *left;
     KdNode *right;
+    bool dead;
 };
 
 

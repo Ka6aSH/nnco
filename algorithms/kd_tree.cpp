@@ -31,22 +31,22 @@ void KdTree::InsertPoint(KdNode *root, Point *point) {
     while (temp != nullptr) {
         last = temp;
         int current_axis = axis % dimension;
-        if (temp->get_coord(current_axis) < point->get_coord(current_axis)) {
-            temp = temp->get_right();
-        } else {
+        if (temp->get_coord(current_axis) > point->get_coord(current_axis)) {
             temp = temp->get_left();
+        } else {
+            temp = temp->get_right();
         }
         axis++;
     }
 
     int current_axis = (axis - 1) % dimension;
-    if (last->get_coord(current_axis) < point->get_coord(current_axis)) {
-        last->set_right(new KdNode(point));
-    } else {
+    if (last->get_coord(current_axis) > point->get_coord(current_axis)) {
         last->set_left(new KdNode(point));
+    } else {
+        last->set_right(new KdNode(point));
     }
 }
-//
+
 //Point *KdTree::MinFunction(Point *p1, Point *p2, Point *p3, int dim) {
 //    double a, b, c;
 //    if (p1 == nullptr)
@@ -71,7 +71,7 @@ void KdTree::InsertPoint(KdNode *root, Point *point) {
 //        return p2;
 //    return nullptr;
 //}
-//
+
 //Point *KdTree::MaxFunction(Point *p1, Point *p2, Point *p3, int dim) {
 //    double a, b, c;
 //    if (p1 == nullptr)
@@ -97,67 +97,85 @@ void KdTree::InsertPoint(KdNode *root, Point *point) {
 //    return nullptr;
 //}
 
-Point *KdTree::FindMin(KdNode *node, int cutting_axis, int current_axis) {
-    if (node == nullptr) {
-        return nullptr;
-    } else if (current_axis == cutting_axis) {
-        if (node->get_left() == nullptr) {
-            return node->get_point();
+//Point *KdTree::FindMin(KdNode *node, int cutting_axis, int current_axis) {
+//    if (node == nullptr) {
+//        return nullptr;
+//    } else if (current_axis == cutting_axis) {
+//        if (node->get_left() == nullptr) {
+//            return node->get_point();
+//        } else {
+//            return FindMin(node->get_left(), cutting_axis, (current_axis + 1) % node->get_point()->get_dim());
+//        }
+//    } else {
+//        int next_dim = (current_axis + 1) % node->get_point()->get_dim();
+//        Point *left = FindMin(node->get_left(), cutting_axis, next_dim);
+//        Point *right = FindMin(node->get_right(), cutting_axis, next_dim);
+//
+//        double a, b, c;
+//        if (left == nullptr)
+//            a = std::numeric_limits<double>::max();
+//        else
+//            a = left->get_coord(cutting_axis);
+//
+//        if (right == nullptr)
+//            b = std::numeric_limits<double>::max();
+//        else
+//            b = right->get_coord(cutting_axis);
+//
+//        c = node->get_coord(cutting_axis);
+//
+//        if (a < b && a < c)
+//            return left;
+//        else if (a < b && c <= a || b <= a && c <= b)
+//            return node->get_point();
+//        else if (b <= a && b < c)
+//            return right;
+//        return nullptr;
+//    }
+//}
+
+//KdNode *KdTree::RemovePoint(KdNode *root, Point *point, int axis) {
+//    if (root == nullptr) {
+//        return nullptr;
+//    }
+//    int next_axis = (axis + 1) % root->get_point()->get_dim();
+//
+//    if (point == root->get_point()) {
+//        if (root->get_right() != nullptr) {
+//            root->set_point(FindMin(root->get_right(), axis, next_axis));
+//            root->set_right(RemovePoint(root->get_right(), root->get_point(), next_axis));
+//        } else if (root->get_left() != nullptr) {
+//            root->set_point(FindMin(root->get_left(), axis, next_axis));
+//            root->set_right(RemovePoint(root->get_left(), root->get_point(), next_axis));
+//            root->set_left(nullptr);
+//        } else {
+//            delete root;
+//            return nullptr;
+//        }
+//    } else if (point->get_coord(axis) < root->get_coord(axis)) {
+//        root->set_left(RemovePoint(root->get_left(), point, next_axis));
+//    } else {
+//        root->set_right(RemovePoint(root->get_right(), point, next_axis));
+//    }
+//    return root;
+//}
+
+void KdTree::RemovePoint(KdNode *root, Point *point) {
+    int axis = 0;
+    int dimension = root->get_point()->get_dim();
+    KdNode *temp = root;
+
+    while (temp->get_point() != point) {
+        int current_axis = axis % dimension;
+        if (temp->get_coord(current_axis) > point->get_coord(current_axis)) {
+            temp = temp->get_left();
         } else {
-            return FindMin(node->get_left(), cutting_axis, (current_axis + 1) % node->get_point()->get_dim());
+            temp = temp->get_right();
         }
-    } else {
-        int next_dim = (current_axis + 1) % node->get_point()->get_dim();
-        Point *left = FindMin(node->get_left(), cutting_axis, next_dim);
-        Point *right = FindMin(node->get_right(), cutting_axis, next_dim);
-
-        double a, b, c;
-        if (left == nullptr)
-            a = std::numeric_limits<double>::max();
-        else
-            a = left->get_coord(cutting_axis);
-
-        if (right == nullptr)
-            b = std::numeric_limits<double>::max();
-        else
-            b = right->get_coord(cutting_axis);
-
-        c = node->get_coord(cutting_axis);
-
-        if (a < b && a < c)
-            return left;
-        else if (a < b && c <= a || b <= a && c <= b)
-            return node->get_point();
-        else if (b <= a && b < c)
-            return right;
-        return nullptr;
+        axis++;
     }
-}
 
-KdNode *KdTree::RemovePoint(KdNode *root, Point *point, int axis) {
-    if (root == nullptr) {
-        return nullptr;
-    }
-    int next_axis = (axis + 1) % root->get_point()->get_dim();
-
-    if (point == root->get_point()) {
-        if (root->get_right() != nullptr) {
-            root->set_point(FindMin(root->get_right(), axis, next_axis));
-            root->set_right(RemovePoint(root->get_right(), root->get_point(), next_axis));
-        } else if (root->get_left() != nullptr) {
-            root->set_point(FindMin(root->get_left(), axis, next_axis));
-            root->set_right(RemovePoint(root->get_left(), root->get_point(), next_axis));
-            root->set_left(nullptr);
-        } else {
-            delete root;
-            return nullptr;
-        }
-    } else if (point->get_coord(axis) < root->get_coord(axis)) {
-        root->set_left(RemovePoint(root->get_left(), point, next_axis));
-    } else {
-        root->set_right(RemovePoint(root->get_right(), point, next_axis));
-    }
-    return root;
+    temp->set_dead(true);
 }
 
 void KdTree::FreeNodes(KdNode *root) {

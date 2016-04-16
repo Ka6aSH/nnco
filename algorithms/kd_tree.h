@@ -16,15 +16,15 @@ public:
 
     static void InsertPoint(KdNode *root, Point *point);
 
-    static KdNode *RemovePoint(KdNode *root, Point *point, int axis);
+    static void RemovePoint(KdNode *root, Point *point);
 
     static void FreeNodes(KdNode *root);
 
-private:
-    static Point *FindMin(KdNode *node, int cutting_axis, int current_axis);
+//private:
+//    static Point *FindMin(KdNode *node, int cutting_axis, int current_axis);
 
 //    static Point *MinFunction(Point *p1, Point *p2, Point *p3, int dim);
-//
+
 //    static Point *MaxFunction(Point *p1, Point *p2, Point *p3, int dim);
 };
 
