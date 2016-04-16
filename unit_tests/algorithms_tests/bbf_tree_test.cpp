@@ -120,3 +120,27 @@ TEST_F(BbfTreeTest, search) {
     Point p3(2, new double[2]{4, 1});
     EXPECT_EQ(v->at(6), alg.Ann(&p3));
 }
+
+TEST_F(BbfTreeTest, insert) {
+    BbfAlgorithm alg(3);
+    std::vector<Point *> sub_vec(v->begin(), v->begin() + v->size() / 2);
+    alg.Init(&sub_vec);
+    for (auto iter = v->begin() + v->size() / 2; iter != v->end(); iter++) {
+        alg.InsertPoint(*iter);
+    }
+    Point p1(2, new double[2]{8, -2});
+    EXPECT_EQ(v->at(11), alg.Ann(&p1));
+}
+
+
+TEST_F(BbfTreeTest, remove) {
+    BbfAlgorithm alg(3);
+    std::vector<Point *> sub_vec(v->begin(), v->begin() + v->size() / 2);
+    alg.Init(&sub_vec);
+    for (auto iter = v->begin() + v->size() / 2; iter != v->end(); iter++) {
+        alg.InsertPoint(*iter);
+    }
+    alg.RemovePoint(v->at(5));
+    Point p1(2, new double[2]{8, -2});
+    EXPECT_EQ(v->at(11), alg.Ann(&p1));
+}

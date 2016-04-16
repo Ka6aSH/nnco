@@ -96,7 +96,7 @@ Point *BbfAlgorithm::Ann(Point *q) {
         if (t.dist >= distance) {
             return result;
         }
-        if (t.next->get_left_node() != nullptr) {
+        if (t.next->get_left_node() != nullptr || t.next->get_right_node() != nullptr) {
             if (t.next->get_left_node() != t.prev) {
                 PushIfBetter(&pq, t.next->get_left_node(), t.next, node_q, q, distance);
             }
@@ -121,19 +121,14 @@ Point *BbfAlgorithm::Ann(Point *q) {
     return result;
 }
 
+void BbfAlgorithm::InsertPoint(Point *point) {
+    root->InsertPoint(point);
+}
+
+void BbfAlgorithm::RemovePoint(Point *point) {
+    root->RemovePoint(point);
+}
+
 BbfAlgorithm::~BbfAlgorithm(void) {
     delete root;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
