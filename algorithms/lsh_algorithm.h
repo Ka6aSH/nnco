@@ -15,6 +15,10 @@ public:
 
     virtual Point *Ann(Point *q);
 
+    virtual void InsertPoint(Point *point);
+
+    virtual void RemovePoint(Point *point);
+
     ~LshAlgorithm();
 
 private:

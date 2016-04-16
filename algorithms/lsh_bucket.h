@@ -13,11 +13,13 @@ class LshBucket {
 public:
     LshBucket(int k, int d);
 
-    int getHash(Point *p);
+    int GetHash(Point *p);
 
-    void addPoint(Point *p);
+    void AddPoint(Point *p);
 
-    std::vector<Point *> *getPoints(Point *q);
+    void RemovePoint(Point *p);
+
+    std::vector<Point *> *GetPoints(Point *q);
 
     ~LshBucket();
 

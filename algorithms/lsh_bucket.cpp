@@ -8,22 +8,30 @@ LshBucket::LshBucket(int k, int d) {
     }
 }
 
-int LshBucket::getHash(Point *p) {
+int LshBucket::GetHash(Point *p) {
     int hash = 0;
     for (int i = 0; i < function_number; ++i)
         hash = 32 * hash + functions[i]->getHash(p);
     return hash;
 }
 
-void LshBucket::addPoint(Point *p) {
-    int hash = getHash(p);
+void LshBucket::AddPoint(Point *p) {
+    int hash = GetHash(p);
     if (!points.count(hash))
         points[hash] = new std::vector<Point *>();
     points[hash]->push_back(p);
 }
 
-std::vector<Point *> *LshBucket::getPoints(Point *q) {
-    int hash = getHash(q);
+void LshBucket::RemovePoint(Point *p) {
+    int hash = GetHash(p);
+    if (points.count(hash)) {
+        auto similar_points = points[hash];
+        similar_points->erase(std::remove(similar_points->begin(), similar_points->end(), p));
+    }
+}
+
+std::vector<Point *> *LshBucket::GetPoints(Point *q) {
+    int hash = GetHash(q);
     if (!points.count(hash)) {
         return nullptr;
     }
@@ -40,14 +48,3 @@ LshBucket::~LshBucket() {
     }
     points.clear();
 }
-
-
-
-
-
-
-
-
-
-
-
