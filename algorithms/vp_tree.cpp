@@ -24,7 +24,7 @@ VpNode *VpTree::BuildTree(std::vector<Point *> *points) {
             outside.push_back(other_points[i]);
         }
     }
-    delete distances;
+    delete[] distances;
     return new VpNode(vantage_point,
                       radius,
                       VpTree::BuildTree(&inside),

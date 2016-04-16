@@ -101,4 +101,7 @@ TEST(lsh_algorithm, insert_delete) {
 
     alg.InsertPoint(v.at(7));
     EXPECT_EQ(v.at(7), alg.Ann(&query_point));
+
+    for (int i = 0; i < v.size(); ++i)
+        delete v[i];
 }
