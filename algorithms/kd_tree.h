@@ -18,6 +18,8 @@ public:
 
     static void RemovePoint(KdNode *root, Point *point);
 
+    static bool Contains(KdNode *node, Point *point);
+
     static void FreeNodes(KdNode *root);
 
 //private:

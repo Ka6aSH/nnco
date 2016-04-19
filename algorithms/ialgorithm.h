@@ -13,6 +13,8 @@ public:
     virtual void InsertPoint(Point *point) = 0;
 
     virtual void RemovePoint(Point *point) = 0;
+
+//    virtual bool Contains(Point *point) = 0;
 };
 
 #endif //NNCO_IALGORITHM_H

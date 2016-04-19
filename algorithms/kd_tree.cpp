@@ -197,6 +197,26 @@ void KdTree::RemovePoint(KdNode *root, Point *point) {
     temp->set_dead(true);
 }
 
+bool KdTree::Contains(KdNode *root, Point *point) {
+    int axis = 0;
+    int dimension = root->get_point()->get_dim();
+    KdNode *temp = root;
+
+    while (temp != nullptr) {
+        if (temp->get_point() == point) {
+            return true;
+        }
+        int current_axis = axis % dimension;
+        if (temp->get_coord(current_axis) > point->get_coord(current_axis)) {
+            temp = temp->get_left();
+        } else {
+            temp = temp->get_right();
+        }
+        axis++;
+    }
+    return false;
+}
+
 void KdTree::FreeNodes(KdNode *root) {
     if (root == nullptr)
         return;

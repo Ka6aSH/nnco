@@ -53,6 +53,11 @@ void KdAlgorithm::RemovePoint(Point *point) {
     KdTree::RemovePoint(root, point);
 }
 
+
+bool KdAlgorithm::Contains(Point *point) {
+    return KdTree::Contains(root, point);
+}
+
 KdAlgorithm::~KdAlgorithm() {
     KdTree::FreeNodes(KdAlgorithm::root);
 }
