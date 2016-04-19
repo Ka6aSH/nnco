@@ -21,6 +21,8 @@ public:
     static std::pair<double, double *> FindDistances(std::vector<Point *> *points, Point *median);
 
     static void FreeNodes(VpNode *root);
+
+    static bool Contains(VpNode *root, Point *point);
 };
 
 

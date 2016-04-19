@@ -23,6 +23,10 @@ void VpAlgorithm::RemovePoint(Point *point) {
     VpTree::RemovePoint(root, point);
 }
 
+bool VpAlgorithm::Contains(Point *point) {
+    return VpTree::Contains(root, point);
+}
+
 void VpAlgorithm::NnsProblem(VpNode *root, Point *q, std::pair<VpNode *, double> *best) {
     if (root == nullptr) {
         return;

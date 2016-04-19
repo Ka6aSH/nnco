@@ -114,6 +114,25 @@ TEST(vp_structure, insert_point) {
     FreeVec(&v);
 }
 
+TEST(vp_structure, contains) {
+    srand(time(NULL));
+    std::vector<Point *> v{new Point(2, new double[2]{1, 1}),
+                           new Point(2, new double[2]{1, -1}),
+                           new Point(2, new double[2]{-1, 1}),
+                           new Point(2, new double[2]{-1, -1}),
+                           new Point(2, new double[2]{2, 2}),
+                           new Point(2, new double[2]{2, -2}),
+                           new Point(2, new double[2]{-2, 2}),
+                           new Point(2, new double[2]{-2, -2})};
+    VpAlgorithm alg;
+    alg.Init(&v);
+    for (int i = 0; i < v.size(); ++i) {
+        EXPECT_TRUE(alg.Contains(v[i]));
+    }
+
+    FreeVec(&v);
+}
+
 TEST(vp_algorithm, sanity) {
     srand(time(NULL));
     std::vector<Point *> v{new Point(2, new double[2]{1, 1}),

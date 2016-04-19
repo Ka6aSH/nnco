@@ -73,6 +73,24 @@ void VpTree::RemovePoint(VpNode *root, Point *point) {
     temp->set_dead(true);
 }
 
+bool VpTree::Contains(VpNode *root, Point *point) {
+    double distance;
+    VpNode *temp = root;
+
+    while (temp != nullptr) {
+        if (temp->get_point() == point) {
+            return true;
+        }
+        distance = Metrics::GetEuclideanDistance(point, temp->get_point());
+        if (temp->get_radius() > distance) {
+            temp = temp->get_inside_node();
+        } else {
+            temp = temp->get_outside_node();
+        }
+    }
+    return false;
+}
+
 std::pair<double, double *> VpTree::FindDistances(std::vector<Point *> *points, Point *median) {
     std::vector<double> local_distances(points->size());
     double *external_distances = new double[points->size()];
