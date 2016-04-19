@@ -35,7 +35,7 @@ public:
 
     virtual void RemovePoint(Point *point) override;
 
-    virtual bool Contains(Point *point);
+    virtual bool Contains(Point *point) override;
 
     ~BbfAlgorithm(void);
 

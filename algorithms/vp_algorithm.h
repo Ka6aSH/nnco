@@ -12,13 +12,13 @@ public:
 
     virtual void Init(std::vector<Point *> *points) override;
 
-    virtual Point *Ann(Point *) override;
+    virtual Point *Ann(Point *q) override;
 
     virtual void InsertPoint(Point *point) override;
 
     virtual void RemovePoint(Point *point) override;
 
-    virtual bool Contains(Point *point);
+    virtual bool Contains(Point *point) override;
 
     ~VpAlgorithm();
 
