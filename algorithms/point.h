@@ -10,6 +10,8 @@ public:
 
     double get_coord(int dim);
 
+    void set_coord(int dim, double coord);
+
     int get_dim() const { return dimension; }
 
     double *get_vec() const { return vector; }

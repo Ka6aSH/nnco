@@ -13,6 +13,10 @@ double Point::get_coord(int dim) {
     return vector[dim % dimension];
 }
 
+void Point::set_coord(int dim, double coord) {
+    vector[dim % dimension] = coord;
+}
+
 Point::~Point(void) {
     delete[] vector;
 }
