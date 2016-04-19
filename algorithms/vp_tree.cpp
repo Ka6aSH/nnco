@@ -78,7 +78,7 @@ bool VpTree::Contains(VpNode *root, Point *point) {
     VpNode *temp = root;
 
     while (temp != nullptr) {
-        if (temp->get_point() == point) {
+        if (!temp->is_dead() && temp->get_point() == point) {
             return true;
         }
         distance = Metrics::GetEuclideanDistance(point, temp->get_point());

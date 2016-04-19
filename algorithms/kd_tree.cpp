@@ -203,7 +203,7 @@ bool KdTree::Contains(KdNode *root, Point *point) {
     KdNode *temp = root;
 
     while (temp != nullptr) {
-        if (temp->get_point() == point) {
+        if (!temp->is_dead() && temp->get_point() == point) {
             return true;
         }
         int current_axis = axis % dimension;
