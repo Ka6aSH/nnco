@@ -30,6 +30,19 @@ void LshBucket::RemovePoint(Point *p) {
     }
 }
 
+bool LshBucket::Contains(Point *point) {
+    int hash = GetHash(point);
+    if (points.count(hash)) {
+        auto similar_points = points[hash];
+        for (int i = 0; i < similar_points->size(); ++i) {
+            if (similar_points->at(i) == point) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 std::vector<Point *> *LshBucket::GetPoints(Point *q) {
     int hash = GetHash(q);
     if (!points.count(hash)) {

@@ -11,13 +11,15 @@ class LshAlgorithm : public IAlgorithm {
 public:
     LshAlgorithm(int buckets = 0, int functions = 0) : buckets_number(buckets), functions_number(functions) { };
 
-    virtual void Init(std::vector<Point *> *points);
+    virtual void Init(std::vector<Point *> *points) override;
 
-    virtual Point *Ann(Point *q);
+    virtual Point *Ann(Point *q) override;
 
-    virtual void InsertPoint(Point *point);
+    virtual void InsertPoint(Point *point) override;
 
-    virtual void RemovePoint(Point *point);
+    virtual void RemovePoint(Point *point) override;
+
+    virtual bool Contains(Point *point);
 
     ~LshAlgorithm();
 

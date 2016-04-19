@@ -51,6 +51,15 @@ void LshAlgorithm::RemovePoint(Point *point) {
     }
 }
 
+bool LshAlgorithm::Contains(Point *point) {
+    for (int i = 0; i < buckets_number; i++) {
+        if (buckets[i]->Contains(point)) {
+            return true;
+        }
+    }
+    return false;
+}
+
 LshAlgorithm::~LshAlgorithm() {
     if (buckets != nullptr)
         for (int i = 0; i < buckets_number; ++i) {

@@ -19,6 +19,8 @@ public:
 
     void RemovePoint(Point *p);
 
+    bool Contains(Point *point);
+
     std::vector<Point *> *GetPoints(Point *q);
 
     ~LshBucket();

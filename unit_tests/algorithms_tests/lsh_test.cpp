@@ -55,32 +55,7 @@ TEST(lsh_buckets, sanity) {
     EXPECT_EQ(list->at(1), &p3);
 }
 
-TEST(lsh_algorithm, sanity) {
-    srand(time(NULL));
-    std::vector<Point *> v{new Point(2, new double[2]{1, 1}),
-                           new Point(2, new double[2]{1, -1}),
-                           new Point(2, new double[2]{-1, 1}),
-                           new Point(2, new double[2]{-1, -1}),
-                           new Point(2, new double[2]{2, 2}),
-                           new Point(2, new double[2]{2, -2}),
-                           new Point(2, new double[2]{-2, 2}),
-                           new Point(2, new double[2]{-2, -2})};
-    LshAlgorithm alg(10, 3);
-    alg.Init(&v);
-    Point p1(2, new double[2]{0.5, 0.5});
-    EXPECT_EQ(v.at(0), alg.Ann(&p1));
-    Point p2(2, new double[2]{-5, -5});
-    EXPECT_EQ(v.at(7), alg.Ann(&p2));
-    Point p3(2, new double[2]{-2, 0.5});
-    EXPECT_EQ(v.at(2), alg.Ann(&p3));
-    Point p4(2, new double[2]{1, -0.0001});
-    EXPECT_EQ(v.at(1), alg.Ann(&p4));
-
-    for (int i = 0; i < v.size(); ++i)
-        delete v[i];
-}
-
-TEST(lsh_algorithm, insert_delete) {
+TEST(lsh_buckets, insert_delete) {
     srand(time(NULL));
     // Test are combined, because inserting using in basic case with ctor
     std::vector<Point *> v{new Point(2, new double[2]{1, 1}),
@@ -101,6 +76,53 @@ TEST(lsh_algorithm, insert_delete) {
 
     alg.InsertPoint(v.at(7));
     EXPECT_EQ(v.at(7), alg.Ann(&query_point));
+
+    for (int i = 0; i < v.size(); ++i)
+        delete v[i];
+}
+
+TEST(lsh_buckets, contains) {
+    srand(time(NULL));
+    // Test are combined, because inserting using in basic case with ctor
+    std::vector<Point *> v{new Point(2, new double[2]{1, 1}),
+                           new Point(2, new double[2]{1, -1}),
+                           new Point(2, new double[2]{-1, 1}),
+                           new Point(2, new double[2]{-1, -1}),
+                           new Point(2, new double[2]{2, 2}),
+                           new Point(2, new double[2]{2, -2}),
+                           new Point(2, new double[2]{-2, 2}),
+                           new Point(2, new double[2]{-2, -2})};
+    LshAlgorithm alg(10, 3);
+    alg.Init(&v);
+
+    for (int i = 0; i < v.size(); ++i) {
+        EXPECT_TRUE(alg.Contains(v[i]));
+    }
+
+    for (int i = 0; i < v.size(); ++i)
+        delete v[i];
+}
+
+TEST(lsh_algorithm, sanity) {
+    srand(time(NULL));
+    std::vector<Point *> v{new Point(2, new double[2]{1, 1}),
+                           new Point(2, new double[2]{1, -1}),
+                           new Point(2, new double[2]{-1, 1}),
+                           new Point(2, new double[2]{-1, -1}),
+                           new Point(2, new double[2]{2, 2}),
+                           new Point(2, new double[2]{2, -2}),
+                           new Point(2, new double[2]{-2, 2}),
+                           new Point(2, new double[2]{-2, -2})};
+    LshAlgorithm alg(10, 3);
+    alg.Init(&v);
+    Point p1(2, new double[2]{0.5, 0.5});
+    EXPECT_EQ(v.at(0), alg.Ann(&p1));
+    Point p2(2, new double[2]{-5, -5});
+    EXPECT_EQ(v.at(7), alg.Ann(&p2));
+    Point p3(2, new double[2]{-2, 0.5});
+    EXPECT_EQ(v.at(2), alg.Ann(&p3));
+    Point p4(2, new double[2]{1, -0.0001});
+    EXPECT_EQ(v.at(1), alg.Ann(&p4));
 
     for (int i = 0; i < v.size(); ++i)
         delete v[i];
