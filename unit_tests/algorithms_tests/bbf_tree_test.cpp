@@ -144,3 +144,9 @@ TEST_F(BbfTreeTest, remove) {
     Point p1(2, new double[2]{8, -2});
     EXPECT_EQ(v->at(11), alg.Ann(&p1));
 }
+
+TEST_F(BbfTreeTest, contains) {
+    for (int i = 0; i < v->size(); ++i) {
+        EXPECT_TRUE(rootNode->Contains(v->at(i)));
+    }
+}

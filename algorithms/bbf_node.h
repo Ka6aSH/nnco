@@ -27,6 +27,8 @@ public:
     void InsertPoint(Point *p);
 
     void RemovePoint(Point *p);
+    
+    bool Contains(Point *point);
 
     int get_sep_axis() const { return m; }
 

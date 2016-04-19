@@ -142,6 +142,15 @@ void BbfNode::RemovePoint(Point *p) {
     }
 }
 
+bool BbfNode::Contains(Point *point) {
+    for (int i = 0; i < node_points.size(); ++i) {
+        if (node_points[i] == point) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool BbfNode::IsParent(BbfNode *node) {
     BbfNode *temp = node;
     while (temp != nullptr) {

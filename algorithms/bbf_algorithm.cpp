@@ -129,6 +129,10 @@ void BbfAlgorithm::RemovePoint(Point *point) {
     root->RemovePoint(point);
 }
 
+bool BbfAlgorithm::Contains(Point *point) {
+    return root->Contains(point);
+}
+
 BbfAlgorithm::~BbfAlgorithm(void) {
     delete root;
 }

@@ -27,13 +27,15 @@ public:
                                                                node_count(node_number),
                                                                leaf_points(leaf_points) { };
 
-    virtual void Init(std::vector<Point *> *points);
+    virtual void Init(std::vector<Point *> *points) override;
 
-    virtual Point *Ann(Point *q);
+    virtual Point *Ann(Point *q) override;
 
-    virtual void InsertPoint(Point *point);
+    virtual void InsertPoint(Point *point) override;
 
-    virtual void RemovePoint(Point *point);
+    virtual void RemovePoint(Point *point) override;
+
+    virtual bool Contains(Point *point);
 
     ~BbfAlgorithm(void);
 
