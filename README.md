@@ -1,2 +1,2 @@
 # nnco
-Graduate work
+It is my graduate work.
