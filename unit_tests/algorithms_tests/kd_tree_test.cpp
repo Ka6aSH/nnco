@@ -260,6 +260,28 @@ TEST(kd_structure, contains) {
     FreeVec(&v);
 }
 
+TEST(kd_structure, contains_insert_delete) {
+    std::vector<Point *> v{new Point(2, new double[2]{1, 1}),
+                           new Point(2, new double[2]{1, -1}),
+                           new Point(2, new double[2]{-1, 1}),
+                           new Point(2, new double[2]{-1, -1}),
+                           new Point(2, new double[2]{2, 2}),
+                           new Point(2, new double[2]{2, -2}),
+                           new Point(2, new double[2]{-2, 2}),
+                           new Point(2, new double[2]{-2, -2})};
+    KdAlgorithm alg;
+    alg.Init(&v);
+
+    EXPECT_TRUE(alg.Contains(v.at(0)));
+    alg.RemovePoint(v.at(0));
+    EXPECT_FALSE(alg.Contains(v.at(0)));
+    Point insert_point(2, new double[2]{50, 50});
+    alg.InsertPoint(&insert_point);
+    EXPECT_TRUE(alg.Contains(&insert_point));
+
+    FreeVec(&v);
+}
+
 TEST(kd_algorithm, sanity) {
     std::vector<Point *> v{new Point(2, new double[2]{1, 1}),
                            new Point(2, new double[2]{1, -1}),

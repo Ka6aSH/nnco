@@ -150,3 +150,15 @@ TEST_F(BbfTreeTest, contains) {
         EXPECT_TRUE(rootNode->Contains(v->at(i)));
     }
 }
+
+TEST_F(BbfTreeTest, contains_insert_delete) {
+    BbfAlgorithm alg(3);
+    alg.Init(v);
+
+    EXPECT_TRUE(alg.Contains(v->at(0)));
+    alg.RemovePoint(v->at(0));
+    EXPECT_FALSE(alg.Contains(v->at(0)));
+    Point insert_point(2, new double[2]{50, 50});
+    alg.InsertPoint(&insert_point);
+    EXPECT_TRUE(alg.Contains(&insert_point));
+}
