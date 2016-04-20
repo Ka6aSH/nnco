@@ -30,72 +30,29 @@ protected:
     std::vector<Point *> points;
 };
 
-TEST_F(ClusterTest, initializing
-) {
+TEST_F(ClusterTest, initializing) {
     Cluster cluster(&points);
-    EXPECT_DOUBLE_EQ(cluster
-                             .
-
-                                     get_center()->
-
-            get_coord(0), 2);
-    EXPECT_DOUBLE_EQ(cluster
-                             .
-
-                                     get_center()->
-
-            get_coord(1), 2);
+    EXPECT_DOUBLE_EQ(cluster.get_center()->get_coord(0), 2);
+    EXPECT_DOUBLE_EQ(cluster.get_center()->get_coord(1), 2);
 }
 
-TEST_F(ClusterTest, merging
-) {
+TEST_F(ClusterTest, merging) {
     auto first_cluster = new std::vector<Point *>(points.begin(), points.begin() + points.size() / 2);
     auto second_cluster = new std::vector<Point *>(points.begin() + points.size() / 2, points.end());
     Point p1(2, new double[2]{1, 2});
     Point p2(2, new double[2]{3, 2});
     Cluster cluster1(first_cluster);
-    cluster1.
-            AddPoint(&p1);
+    cluster1.AddPoint(&p1);
     Cluster cluster2(second_cluster);
-    cluster2.
-            AddPoint(&p2);
-    EXPECT_LT(cluster1
-                      .
-
-                              get_center()->
-
-            get_coord(0), 2);
-    EXPECT_DOUBLE_EQ(cluster1
-                             .
-
-                                     get_center()->
-
-            get_coord(1), 2);
-    EXPECT_GT(cluster2
-                      .
-
-                              get_center()->
-
-            get_coord(0), 2);
-    EXPECT_DOUBLE_EQ(cluster2
-                             .
-
-                                     get_center()->
-
-            get_coord(1), 2);
-    cluster1.
-            AddCluster(&cluster2);
-    EXPECT_DOUBLE_EQ(cluster1
-                             .
-
-                                     get_center()->
-
-            get_coord(0), 2);
-    EXPECT_DOUBLE_EQ(cluster1
-                             .
-
-                                     get_center()->
-
-            get_coord(1), 2);
+    cluster2.AddPoint(&p2);
+    EXPECT_LT(cluster1.get_center()->get_coord(0), 2);
+    EXPECT_DOUBLE_EQ(cluster1.get_center()->get_coord(1), 2);
+    EXPECT_GT(cluster2.get_center()->get_coord(0), 2);
+    EXPECT_DOUBLE_EQ(cluster2.get_center()->get_coord(1), 2);
+    cluster1.AddCluster(&cluster2);
+    EXPECT_DOUBLE_EQ(cluster1.get_center()->get_coord(0), 2);
+    EXPECT_DOUBLE_EQ(cluster1.get_center()->get_coord(1), 2);
+    delete first_cluster;
+    delete second_cluster;
 }
 
