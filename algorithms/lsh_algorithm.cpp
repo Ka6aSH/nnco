@@ -2,6 +2,12 @@
 #include "metrics.h"
 
 void LshAlgorithm::Init(std::vector<Point *> *points) {
+    if (buckets != nullptr) {
+        for (int i = 0; i < buckets_number; ++i) {
+            delete buckets[i];
+        }
+        delete[] buckets;
+    }
     int d = points->at(0)->get_dim();
     if (buckets_number < 1) {
         buckets_number = (int) std::round(std::pow(d, 0.25));
