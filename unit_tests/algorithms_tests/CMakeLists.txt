@@ -10,7 +10,8 @@ add_executable(runAlgorithmTests
         bbf_tree_test.cpp
         lsh_test.cpp
         cluster_test.cpp
-        linear_test.cpp)
+        linear_test.cpp
+        clustering_test.cpp)
 
 target_link_libraries(runAlgorithmTests gtest gtest_main)
 target_link_libraries(runAlgorithmTests algorithms)

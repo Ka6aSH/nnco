@@ -10,11 +10,17 @@ public:
 
     Cluster(std::vector<Point *> *points);
 
+    Cluster(Point *point);
+
+    Cluster(Cluster *lhs, Cluster *rhs);
+
     void AddCluster(Cluster *another);
 
     void AddPoint(Point *point);
 
     Point *get_center() const { return center; }
+
+    std::vector<Point *> *get_points() { return &points; }
 
     ~Cluster();
 

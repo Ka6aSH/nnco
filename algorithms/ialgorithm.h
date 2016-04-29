@@ -15,6 +15,8 @@ public:
     virtual void RemovePoint(Point *point) = 0;
 
     virtual bool Contains(Point *point) = 0;
+
+    virtual ~IAlgorithm() { };
 };
 
 #endif //NNCO_IALGORITHM_H
