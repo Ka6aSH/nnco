@@ -34,10 +34,12 @@ Point *LshAlgorithm::Ann(Point *q) {
         auto bucket = buckets[i];
         if ((temp_points = bucket->GetPoints(q)) != nullptr) {
             for (auto point = temp_points->begin(); point != temp_points->end(); ++point) {
-                temp_dist = Metrics::GetEuclideanDistance(q, *point);
-                if (temp_dist < dist) {
-                    res = *point;
-                    dist = temp_dist;
+                if (*point != q) {
+                    temp_dist = Metrics::GetEuclideanDistance(q, *point);
+                    if (temp_dist < dist) {
+                        res = *point;
+                        dist = temp_dist;
+                    }
                 }
             }
         }

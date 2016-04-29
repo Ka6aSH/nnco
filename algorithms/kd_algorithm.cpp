@@ -23,7 +23,7 @@ void KdAlgorithm::NnsProblem(KdNode *root, Point *query, std::pair<KdNode *, dou
     double d = Metrics::GetEuclideanDistance(root->get_point(), query);
     double dx = root->get_coord(axis) - query->get_coord(axis);
     double dx2 = dx * dx;
-    if (!root->is_dead() && (best->first == nullptr || d < best->second)) {
+    if (!root->is_dead() && root->get_point() != query && (best->first == nullptr || d < best->second)) {
         best->first = root;
         best->second = d;
     }

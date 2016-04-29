@@ -78,10 +78,12 @@ Point *BbfAlgorithm::Ann(Point *q) {
     double distance = Metrics::GetEuclideanDistance(result, q);
     double tempDistance;
     for (size_t i = 0; i < node_points->size(); ++i) {
-        tempDistance = Metrics::GetEuclideanDistance(q, node_points->at(i));
-        if (tempDistance < distance) {
-            distance = tempDistance;
-            result = node_points->at(i);
+        if (node_points->at(i) != q) {
+            tempDistance = Metrics::GetEuclideanDistance(q, node_points->at(i));
+            if (tempDistance < distance) {
+                distance = tempDistance;
+                result = node_points->at(i);
+            }
         }
     }
 
@@ -110,10 +112,12 @@ Point *BbfAlgorithm::Ann(Point *q) {
             node_points = t.next->get_node_points();
             remain_views -= node_points->size();
             for (size_t i = 0; i < node_points->size(); ++i) {
-                tempDistance = Metrics::GetEuclideanDistance(q, node_points->at(i));
-                if (tempDistance < distance) {
-                    distance = tempDistance;
-                    result = node_points->at(i);
+                if (node_points->at(i) != q) {
+                    tempDistance = Metrics::GetEuclideanDistance(q, node_points->at(i));
+                    if (tempDistance < distance) {
+                        distance = tempDistance;
+                        result = node_points->at(i);
+                    }
                 }
             }
         }

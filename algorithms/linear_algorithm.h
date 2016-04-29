@@ -21,7 +21,7 @@ public:
 
     virtual bool Contains(Point *point) override;
 
-    ~LinearAlgorithm();
+    virtual ~LinearAlgorithm();
 
 private:
     std::vector<Point *> *points;

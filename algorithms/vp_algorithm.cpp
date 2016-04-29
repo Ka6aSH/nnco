@@ -32,7 +32,7 @@ void VpAlgorithm::NnsProblem(VpNode *root, Point *q, std::pair<VpNode *, double>
         return;
     }
     double distance = Metrics::GetEuclideanDistance(root->get_point(), q);
-    if (!root->is_dead() && (best->first == nullptr || distance < best->second)) {
+    if (!root->is_dead() && root->get_point() != q && (best->first == nullptr || distance < best->second)) {
         best->first = root;
         best->second = distance;
     }

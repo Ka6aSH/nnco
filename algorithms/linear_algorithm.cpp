@@ -11,10 +11,12 @@ Point *LinearAlgorithm::Ann(Point *q) {
     double distance = std::numeric_limits<double>().max();
     Point *result = nullptr;
     for (size_t i = 0; i < points->size(); ++i) {
-        double temp_distance = Metrics::GetEuclideanDistance(q, points->at(i));
-        if (temp_distance < distance) {
-            distance = temp_distance;
-            result = points->at(i);
+        if (points->at(i) != q) {
+            double temp_distance = Metrics::GetEuclideanDistance(q, points->at(i));
+            if (temp_distance < distance) {
+                distance = temp_distance;
+                result = points->at(i);
+            }
         }
     }
     return result;
