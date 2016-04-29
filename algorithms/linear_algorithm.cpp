@@ -2,7 +2,7 @@
 
 void LinearAlgorithm::Init(std::vector<Point *> *points) {
     if (LinearAlgorithm::points != nullptr) {
-        delete points;
+        delete LinearAlgorithm::points;
     }
     LinearAlgorithm::points = new std::vector<Point *>(points->begin(), points->end());
 }
