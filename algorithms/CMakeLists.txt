@@ -12,7 +12,7 @@ set(HEADER_FILES
         bbf_node.h bbf_algorithm.h
         lsh_hash_function.h lsh_bucket.h lsh_algorithm.h
         linear_algorithm.h
-        cluster.h aggl_clustering.h)
+        cluster.h aggl_clustering.h cluster_quality.h)
 
 set(SOURCE_FILES
         point.cpp
@@ -22,6 +22,6 @@ set(SOURCE_FILES
         bbf_node.cpp bbf_algorithm.cpp
         lsh_hash_function.cpp lsh_bucket.cpp lsh_algorithm.cpp
         linear_algorithm.cpp
-        cluster.cpp aggl_clustering.cpp)
+        cluster.cpp aggl_clustering.cpp cluster_quality.cpp)
 
 add_library(algorithms STATIC ${SOURCE_FILES} ${HEADER_FILES})
