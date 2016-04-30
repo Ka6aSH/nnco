@@ -1,12 +1,13 @@
 #include "kd_algorithm.h"
 
-void KdAlgorithm::Init(std::vector<Point *> *points) {
+void KdAlgorithm::Init(std::vector<Point *> *points, double (*distance)(Point *, Point *)) {
     if (points == nullptr || points->empty())
         return;
     if (KdAlgorithm::root != nullptr)
         KdTree::FreeNodes(KdAlgorithm::root);
     KdAlgorithm::dimension = points->at(0)->get_dim();
     std::vector<Point *> copy(*points);
+    KdAlgorithm::metric = distance;
     KdAlgorithm::root = KdTree::BuildTree(&copy, 0, KdAlgorithm::dimension);
 }
 
@@ -20,7 +21,7 @@ void KdAlgorithm::NnsProblem(KdNode *root, Point *query, std::pair<KdNode *, dou
     if (root == nullptr) {
         return;
     }
-    double d = Metrics::GetEuclideanDistance(root->get_point(), query);
+    double d = KdAlgorithm::metric(root->get_point(), query);
     double dx = root->get_coord(axis) - query->get_coord(axis);
     double dx2 = dx * dx;
     if (!root->is_dead() && root->get_point() != query && (best->first == nullptr || d < best->second)) {

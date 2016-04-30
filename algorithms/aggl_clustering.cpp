@@ -9,7 +9,7 @@ AgglClustering::AgglClustering(std::vector<Point *> *points,
 }
 
 void AgglClustering::Init() {
-    alg->Init(&points);
+    alg->Init(&points, metric);
 }
 
 void AgglClustering::RunClustering() {

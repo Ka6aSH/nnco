@@ -2,6 +2,7 @@
 #include <point.h>
 #include <vp_tree.h>
 #include <vp_algorithm.h>
+#include <metrics.h>
 
 bool TraverseTreeLess(VpNode *node, Point *vantage_point, double median);
 
@@ -20,7 +21,7 @@ TEST(vp_structure, vp_tree_build) {
                            new Point(2, new double[2]{2, -2}),
                            new Point(2, new double[2]{-2, 2}),
                            new Point(2, new double[2]{-2, -2})};
-    VpNode *root = VpTree::BuildTree(&v);
+    VpNode *root = VpTree::BuildTree(&v, Metrics::GetEuclideanDistance);
     // Check one root
     double median_0 = root->get_radius();
     EXPECT_TRUE(TraverseTreeLess(root->get_inside_node(), root->get_point(), median_0 + 0.01));
@@ -59,7 +60,7 @@ TEST(vp_structure, delete_point) {
                            new Point(2, new double[2]{-2, 2}),
                            new Point(2, new double[2]{-2, -2})};
     VpAlgorithm alg;
-    alg.Init(&v);
+    alg.Init(&v, Metrics::GetEuclideanDistance);
 
     alg.RemovePoint(v.at(0));
     Point p1(2, new double[2]{0.5, 0.5});
@@ -87,7 +88,7 @@ TEST(vp_structure, insert_point) {
                            new Point(2, new double[2]{-1, 1}),
                            new Point(2, new double[2]{-1, -1})};
     VpAlgorithm alg;
-    alg.Init(&v);
+    alg.Init(&v, Metrics::GetEuclideanDistance);
 
     Point ip1(2, new double[2]{2, 2});
     Point ip2(2, new double[2]{2, -2});
@@ -125,7 +126,7 @@ TEST(vp_structure, contains) {
                            new Point(2, new double[2]{-2, 2}),
                            new Point(2, new double[2]{-2, -2})};
     VpAlgorithm alg;
-    alg.Init(&v);
+    alg.Init(&v, Metrics::GetEuclideanDistance);
     for (int i = 0; i < v.size(); ++i) {
         EXPECT_TRUE(alg.Contains(v[i]));
     }
@@ -143,7 +144,7 @@ TEST(vp_structure, contains_insert_delete) {
                            new Point(2, new double[2]{-2, 2}),
                            new Point(2, new double[2]{-2, -2})};
     VpAlgorithm alg;
-    alg.Init(&v);
+    alg.Init(&v, Metrics::GetEuclideanDistance);
 
     EXPECT_TRUE(alg.Contains(v.at(0)));
     alg.RemovePoint(v.at(0));
@@ -166,7 +167,7 @@ TEST(vp_algorithm, sanity) {
                            new Point(2, new double[2]{-2, 2}),
                            new Point(2, new double[2]{-2, -2})};
     VpAlgorithm alg;
-    alg.Init(&v);
+    alg.Init(&v, Metrics::GetEuclideanDistance);
     Point p1(2, new double[2]{0.5, 0.5});
     EXPECT_EQ(v.at(0), alg.Ann(&p1));
     Point p2(2, new double[2]{-5, -5});

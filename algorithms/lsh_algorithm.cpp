@@ -1,7 +1,6 @@
 #include "lsh_algorithm.h"
-#include "metrics.h"
 
-void LshAlgorithm::Init(std::vector<Point *> *points) {
+void LshAlgorithm::Init(std::vector<Point *> *points, double (*distance)(Point *, Point *)) {
     if (buckets != nullptr) {
         for (int i = 0; i < buckets_number; ++i) {
             delete buckets[i];
@@ -23,6 +22,7 @@ void LshAlgorithm::Init(std::vector<Point *> *points) {
             b->AddPoint(points->at(j));
         buckets[i] = b;
     }
+    metric = distance;
 }
 
 Point *LshAlgorithm::Ann(Point *q) {
@@ -35,7 +35,7 @@ Point *LshAlgorithm::Ann(Point *q) {
         if ((temp_points = bucket->GetPoints(q)) != nullptr) {
             for (auto point = temp_points->begin(); point != temp_points->end(); ++point) {
                 if (*point != q) {
-                    temp_dist = Metrics::GetEuclideanDistance(q, *point);
+                    temp_dist = metric(q, *point);
                     if (temp_dist < dist) {
                         res = *point;
                         dist = temp_dist;

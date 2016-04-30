@@ -4,13 +4,12 @@
 
 #include "ialgorithm.h"
 #include "kd_tree.h"
-#include "metrics.h"
 
 class KdAlgorithm : public IAlgorithm {
 public:
     KdAlgorithm() { }
 
-    virtual void Init(std::vector<Point *> *points) override;
+    virtual void Init(std::vector<Point *> *points, double (*distance)(Point *p1, Point *p2)) override;
 
     virtual Point *Ann(Point *q) override;
 
@@ -25,6 +24,8 @@ public:
 private:
     KdNode *root = nullptr;
     int dimension = 0;
+
+    double (*metric)(Point *p1, Point *p2);
 
     void NnsProblem(KdNode *root, Point *p, std::pair<KdNode *, double> *best, int axis);
 };

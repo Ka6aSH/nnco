@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include <point.h>
 #include <linear_algorithm.h>
+#include <metrics.h>
 
 class LinearTest : public ::testing::Test {
 private:
@@ -32,7 +33,7 @@ protected:
 
 TEST_F(LinearTest, insert_delete) {
     LinearAlgorithm alg;
-    alg.Init(&points);
+    alg.Init(&points, Metrics::GetEuclideanDistance);
     Point query_point(2, new double[2]{-5, -5});
     EXPECT_EQ(points[7], alg.Ann(&query_point));
 
@@ -45,7 +46,7 @@ TEST_F(LinearTest, insert_delete) {
 
 TEST_F(LinearTest, contains) {
     LinearAlgorithm alg;
-    alg.Init(&points);
+    alg.Init(&points, Metrics::GetEuclideanDistance);
 
     for (int i = 0; i < points.size(); ++i) {
         EXPECT_TRUE(alg.Contains(points[i]));
@@ -54,7 +55,7 @@ TEST_F(LinearTest, contains) {
 
 TEST_F(LinearTest, contains_insert_delete) {
     LinearAlgorithm alg;
-    alg.Init(&points);
+    alg.Init(&points, Metrics::GetEuclideanDistance);
 
     EXPECT_TRUE(alg.Contains(points[0]));
     alg.RemovePoint(points[0]);
@@ -66,7 +67,7 @@ TEST_F(LinearTest, contains_insert_delete) {
 
 TEST_F(LinearTest, algorithm_sanity) {
     LinearAlgorithm alg;
-    alg.Init(&points);
+    alg.Init(&points, Metrics::GetEuclideanDistance);
     Point p1(2, new double[2]{2.5, 2.5});
     EXPECT_EQ(points[0], alg.Ann(&p1));
     Point p2(2, new double[2]{-3, -3});

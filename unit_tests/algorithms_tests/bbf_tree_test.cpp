@@ -2,6 +2,7 @@
 #include <point.h>
 #include <bbf_node.h>
 #include <bbf_algorithm.h>
+#include <metrics.h>
 
 class BbfTreeTest : public ::testing::Test {
 private:
@@ -112,7 +113,7 @@ TEST_F(BbfTreeTest, paranting) {
 
 TEST_F(BbfTreeTest, search) {
     BbfAlgorithm alg;
-    alg.Init(v);
+    alg.Init(v, Metrics::GetEuclideanDistance);
     Point p1(2, new double[2]{0, 0});
     EXPECT_EQ(v->at(7), alg.Ann(&p1));
     Point p2(2, new double[2]{-1, -1});
@@ -124,7 +125,7 @@ TEST_F(BbfTreeTest, search) {
 TEST_F(BbfTreeTest, insert) {
     BbfAlgorithm alg(3);
     std::vector<Point *> sub_vec(v->begin(), v->begin() + v->size() / 2);
-    alg.Init(&sub_vec);
+    alg.Init(&sub_vec, Metrics::GetEuclideanDistance);
     for (auto iter = v->begin() + v->size() / 2; iter != v->end(); iter++) {
         alg.InsertPoint(*iter);
     }
@@ -136,7 +137,7 @@ TEST_F(BbfTreeTest, insert) {
 TEST_F(BbfTreeTest, remove) {
     BbfAlgorithm alg(3);
     std::vector<Point *> sub_vec(v->begin(), v->begin() + v->size() / 2);
-    alg.Init(&sub_vec);
+    alg.Init(&sub_vec, Metrics::GetEuclideanDistance);
     for (auto iter = v->begin() + v->size() / 2; iter != v->end(); iter++) {
         alg.InsertPoint(*iter);
     }
@@ -153,7 +154,7 @@ TEST_F(BbfTreeTest, contains) {
 
 TEST_F(BbfTreeTest, contains_insert_delete) {
     BbfAlgorithm alg(3);
-    alg.Init(v);
+    alg.Init(v, Metrics::GetEuclideanDistance);
 
     EXPECT_TRUE(alg.Contains(v->at(0)));
     alg.RemovePoint(v->at(0));

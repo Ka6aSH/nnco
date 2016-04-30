@@ -6,7 +6,7 @@
 
 class IAlgorithm {
 public:
-    virtual void Init(std::vector<Point *> *points) = 0;
+    virtual void Init(std::vector<Point *> *points, double (*distance)(Point *p1, Point *p2)) = 0;
 
     virtual Point *Ann(Point *q) = 0;
 

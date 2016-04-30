@@ -61,9 +61,10 @@ void BbfAlgorithm::PushIfBetter(std::priority_queue<Triple, std::vector<Triple>,
     }
 }
 
-void BbfAlgorithm::Init(std::vector<Point *> *points) {
+void BbfAlgorithm::Init(std::vector<Point *> *points, double (*distance)(Point *, Point *)) {
     if (BbfAlgorithm::root != nullptr)
         delete BbfAlgorithm::root;
+    BbfAlgorithm::metric = distance;
     BbfAlgorithm::root = new BbfNode(points, leaf_points);
     if (node_count < 0) {
         node_count = points->size();
@@ -75,11 +76,11 @@ Point *BbfAlgorithm::Ann(Point *q) {
     auto node_points = node_q->get_node_points();
     int remain_views = node_count - node_points->size();
     Point *result = node_points->at(0);
-    double distance = Metrics::GetEuclideanDistance(result, q);
+    double distance = metric(result, q);
     double tempDistance;
     for (size_t i = 0; i < node_points->size(); ++i) {
         if (node_points->at(i) != q) {
-            tempDistance = Metrics::GetEuclideanDistance(q, node_points->at(i));
+            tempDistance = metric(q, node_points->at(i));
             if (tempDistance < distance) {
                 distance = tempDistance;
                 result = node_points->at(i);
@@ -113,7 +114,7 @@ Point *BbfAlgorithm::Ann(Point *q) {
             remain_views -= node_points->size();
             for (size_t i = 0; i < node_points->size(); ++i) {
                 if (node_points->at(i) != q) {
-                    tempDistance = Metrics::GetEuclideanDistance(q, node_points->at(i));
+                    tempDistance = metric(q, node_points->at(i));
                     if (tempDistance < distance) {
                         distance = tempDistance;
                         result = node_points->at(i);

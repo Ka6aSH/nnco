@@ -1,6 +1,6 @@
 #include "vp_tree.h"
 
-VpNode *VpTree::BuildTree(std::vector<Point *> *points) {
+VpNode *VpTree::BuildTree(std::vector<Point *> *points, double (*metric)(Point *, Point *)) {
     if (points->empty()) {
         return nullptr;
     } else {
@@ -12,7 +12,7 @@ VpNode *VpTree::BuildTree(std::vector<Point *> *points) {
     std::swap(points->at(random_idx), points->at(0));
     Point *vantage_point = points->at(0);
     std::vector<Point *> other_points(points->begin() + 1, points->end());
-    std::pair<double, double *> median = VpTree::FindDistances(&other_points, vantage_point);
+    std::pair<double, double *> median = VpTree::FindDistances(&other_points, vantage_point, metric);
     std::vector<Point *> inside;
     std::vector<Point *> outside;
     auto radius = median.first;
@@ -27,18 +27,18 @@ VpNode *VpTree::BuildTree(std::vector<Point *> *points) {
     delete[] distances;
     return new VpNode(vantage_point,
                       radius,
-                      VpTree::BuildTree(&inside),
-                      VpTree::BuildTree(&outside));
+                      VpTree::BuildTree(&inside, metric),
+                      VpTree::BuildTree(&outside, metric));
 }
 
-void VpTree::InsertPoint(VpNode *root, Point *point) {
+void VpTree::InsertPoint(VpNode *root, Point *point, double (*metric)(Point *, Point *)) {
     double distance = 0;
     VpNode *temp = root;
     VpNode *last = root;
 
     while (temp != nullptr) {
         last = temp;
-        distance = Metrics::GetEuclideanDistance(point, temp->get_point());
+        distance = metric(point, temp->get_point());
         if (temp->get_radius() > distance) {
             temp = temp->get_inside_node();
         } else {
@@ -57,12 +57,12 @@ void VpTree::InsertPoint(VpNode *root, Point *point) {
     }
 }
 
-void VpTree::RemovePoint(VpNode *root, Point *point) {
+void VpTree::RemovePoint(VpNode *root, Point *point, double (*metric)(Point *, Point *)) {
     double distance = 0;
     VpNode *temp = root;
 
     while (temp->get_point() != point) {
-        distance = Metrics::GetEuclideanDistance(point, temp->get_point());
+        distance = metric(point, temp->get_point());
         if (temp->get_radius() > distance) {
             temp = temp->get_inside_node();
         } else {
@@ -73,7 +73,7 @@ void VpTree::RemovePoint(VpNode *root, Point *point) {
     temp->set_dead(true);
 }
 
-bool VpTree::Contains(VpNode *root, Point *point) {
+bool VpTree::Contains(VpNode *root, Point *point, double (*metric)(Point *, Point *)) {
     double distance;
     VpNode *temp = root;
 
@@ -81,7 +81,7 @@ bool VpTree::Contains(VpNode *root, Point *point) {
         if (!temp->is_dead() && temp->get_point() == point) {
             return true;
         }
-        distance = Metrics::GetEuclideanDistance(point, temp->get_point());
+        distance = metric(point, temp->get_point());
         if (temp->get_radius() > distance) {
             temp = temp->get_inside_node();
         } else {
@@ -91,11 +91,12 @@ bool VpTree::Contains(VpNode *root, Point *point) {
     return false;
 }
 
-std::pair<double, double *> VpTree::FindDistances(std::vector<Point *> *points, Point *median) {
+std::pair<double, double *> VpTree::FindDistances(std::vector<Point *> *points, Point *median,
+                                                  double (*metric)(Point *, Point *)) {
     std::vector<double> local_distances(points->size());
     double *external_distances = new double[points->size()];
     for (size_t i = 0; i < points->size(); ++i) {
-        external_distances[i] = local_distances[i] = Metrics::GetEuclideanDistance(points->at(i), median);
+        external_distances[i] = local_distances[i] = metric(points->at(i), median);
     }
     std::nth_element(local_distances.begin(),
                      local_distances.begin() + local_distances.size() / 2,

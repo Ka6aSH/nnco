@@ -5,13 +5,12 @@
 #include <algorithm>
 #include <limits>
 #include "ialgorithm.h"
-#include "metrics.h"
 
 class LinearAlgorithm : public IAlgorithm {
 public:
     LinearAlgorithm() : points(nullptr) { }
 
-    virtual void Init(std::vector<Point *> *points) override;
+    virtual void Init(std::vector<Point *> *points, double (*distance)(Point *p1, Point *p2)) override;
 
     virtual Point *Ann(Point *q) override;
 
@@ -25,6 +24,8 @@ public:
 
 private:
     std::vector<Point *> *points;
+
+    double (*metric)(Point *p1, Point *p2);
 };
 
 

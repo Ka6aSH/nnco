@@ -2,6 +2,7 @@
 #include <lsh_hash_function.h>
 #include <lsh_bucket.h>
 #include <lsh_algorithm.h>
+#include <metrics.h>
 
 TEST(lsh_hash_function, near_points) {
     srand(time(NULL));
@@ -67,7 +68,7 @@ TEST(lsh_buckets, insert_delete) {
                            new Point(2, new double[2]{-2, 2}),
                            new Point(2, new double[2]{-2, -2})};
     LshAlgorithm alg(10, 3);
-    alg.Init(&v);
+    alg.Init(&v, Metrics::GetEuclideanDistance);
     Point query_point(2, new double[2]{-5, -5});
     EXPECT_EQ(v.at(7), alg.Ann(&query_point));
 
@@ -93,7 +94,7 @@ TEST(lsh_buckets, contains) {
                            new Point(2, new double[2]{-2, 2}),
                            new Point(2, new double[2]{-2, -2})};
     LshAlgorithm alg(10, 3);
-    alg.Init(&v);
+    alg.Init(&v, Metrics::GetEuclideanDistance);
 
     for (int i = 0; i < v.size(); ++i) {
         EXPECT_TRUE(alg.Contains(v[i]));
@@ -113,7 +114,7 @@ TEST(lsh_buckets, contains_insert_delete) {
                            new Point(2, new double[2]{-2, 2}),
                            new Point(2, new double[2]{-2, -2})};
     LshAlgorithm alg(10, 3);
-    alg.Init(&v);
+    alg.Init(&v, Metrics::GetEuclideanDistance);
 
     EXPECT_TRUE(alg.Contains(v.at(0)));
     alg.RemovePoint(v.at(0));
@@ -137,7 +138,7 @@ TEST(lsh_algorithm, sanity) {
                            new Point(2, new double[2]{-2, 2}),
                            new Point(2, new double[2]{-2, -2})};
     LshAlgorithm alg(10, 3);
-    alg.Init(&v);
+    alg.Init(&v, Metrics::GetEuclideanDistance);
     Point p1(2, new double[2]{0.5, 0.5});
     EXPECT_EQ(v.at(0), alg.Ann(&p1));
     Point p2(2, new double[2]{-5, -5});

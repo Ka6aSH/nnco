@@ -4,13 +4,12 @@
 
 #include "ialgorithm.h"
 #include "vp_tree.h"
-#include "metrics.h"
 
 class VpAlgorithm : public IAlgorithm {
 public:
     VpAlgorithm() { }
 
-    virtual void Init(std::vector<Point *> *points) override;
+    virtual void Init(std::vector<Point *> *points, double (*distance)(Point *p1, Point *p2)) override;
 
     virtual Point *Ann(Point *q) override;
 
@@ -24,6 +23,8 @@ public:
 
 private:
     VpNode *root = nullptr;
+
+    double (*metric)(Point *p1, Point *p2);
 
     void NnsProblem(VpNode *root, Point *p, std::pair<VpNode *, double> *best);
 };

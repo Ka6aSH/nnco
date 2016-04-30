@@ -3,6 +3,7 @@
 #include <aggl_clustering.h>
 #include <linear_algorithm.h>
 #include <cluster_quality.h>
+#include <metrics.h>
 
 TEST(clustering, sanity) {
     std::vector<Point *> points{new Point(2, new double[2]{1, 3}),
@@ -50,8 +51,8 @@ TEST(clustering_quality, internal) {
     clustering2.RunClustering();
     auto result_cluster_1 = clustering1.GetClusters();
     auto result_cluster_2 = clustering2.GetClusters();
-    EXPECT_LT(ClusterQuality::CalculateInsideQuality(result_cluster_1),
-              ClusterQuality::CalculateInsideQuality(result_cluster_2));
+    EXPECT_LT(ClusterQuality::CalculateInsideQuality(result_cluster_1, Metrics::GetEuclideanDistance),
+              ClusterQuality::CalculateInsideQuality(result_cluster_2, Metrics::GetEuclideanDistance));
 
     delete result_cluster_1;
     delete result_cluster_2;
@@ -80,8 +81,8 @@ TEST(clustering_quality, external) {
     clustering2.RunClustering();
     auto result_cluster_1 = clustering1.GetClusters();
     auto result_cluster_2 = clustering2.GetClusters();
-    EXPECT_LT(ClusterQuality::CalculateOutsideQuality(result_cluster_1),
-              ClusterQuality::CalculateOutsideQuality(result_cluster_2));
+    EXPECT_LT(ClusterQuality::CalculateOutsideQuality(result_cluster_1, Metrics::GetEuclideanDistance),
+              ClusterQuality::CalculateOutsideQuality(result_cluster_2, Metrics::GetEuclideanDistance));
 
     delete result_cluster_1;
     delete result_cluster_2;

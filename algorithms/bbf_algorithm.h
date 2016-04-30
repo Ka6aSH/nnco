@@ -6,7 +6,6 @@
 #include <queue>
 #include "ialgorithm.h"
 #include "bbf_node.h"
-#include "metrics.h"
 
 struct Triple {
     double dist;
@@ -27,7 +26,7 @@ public:
                                                                node_count(node_number),
                                                                leaf_points(leaf_points) { };
 
-    virtual void Init(std::vector<Point *> *points) override;
+    virtual void Init(std::vector<Point *> *points, double (*distance)(Point *p1, Point *p2)) override;
 
     virtual Point *Ann(Point *q) override;
 
@@ -43,6 +42,8 @@ private:
     BbfNode *root;
     int node_count;
     int leaf_points;
+
+    double (*metric)(Point *p1, Point *p2);
 
     BbfNode *FindLeaf(Point *q);
 

@@ -1,16 +1,16 @@
 #ifndef NNCO_CLUSTER_QUALITY_H
 #define NNCO_CLUSTER_QUALITY_H
 
-
+#include <cstddef>
 #include "cluster.h"
 
 class ClusterQuality {
 public:
-    static double CalculateQuality(std::vector<Cluster *> *clusters);
+    static double CalculateQuality(std::vector<Cluster *> *clusters, double (*distance)(Point *p1, Point *p2));
 
-    static double CalculateInsideQuality(std::vector<Cluster *> *clusters);
+    static double CalculateInsideQuality(std::vector<Cluster *> *clusters, double (*distance)(Point *p1, Point *p2));
 
-    static double CalculateOutsideQuality(std::vector<Cluster *> *clusters);
+    static double CalculateOutsideQuality(std::vector<Cluster *> *clusters, double (*distance)(Point *p1, Point *p2));
 
     static double get_quality() { return quality; }
 

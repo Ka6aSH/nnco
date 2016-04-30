@@ -2,6 +2,7 @@
 #include <kd_node.h>
 #include <kd_tree.h>
 #include <kd_algorithm.h>
+#include <metrics.h>
 
 bool TraverseTreeLess(KdNode *node, int axis, double median);
 
@@ -183,7 +184,7 @@ TEST(kd_structure, delete_point_2) {
                            new Point(2, new double[2]{-2, 2}),
                            new Point(2, new double[2]{-2, -2})};
     KdAlgorithm alg;
-    alg.Init(&v);
+    alg.Init(&v, Metrics::GetEuclideanDistance);
 
     alg.RemovePoint(v.at(0));
     Point p1(2, new double[2]{0.5, 0.5});
@@ -252,7 +253,7 @@ TEST(kd_structure, contains) {
                            new Point(2, new double[2]{-2, 2}),
                            new Point(2, new double[2]{-2, -2})};
     KdAlgorithm alg;
-    alg.Init(&v);
+    alg.Init(&v, Metrics::GetEuclideanDistance);
     for (int i = 0; i < v.size(); ++i) {
         EXPECT_TRUE(alg.Contains(v[i]));
     }
@@ -270,7 +271,7 @@ TEST(kd_structure, contains_insert_delete) {
                            new Point(2, new double[2]{-2, 2}),
                            new Point(2, new double[2]{-2, -2})};
     KdAlgorithm alg;
-    alg.Init(&v);
+    alg.Init(&v, Metrics::GetEuclideanDistance);
 
     EXPECT_TRUE(alg.Contains(v.at(0)));
     alg.RemovePoint(v.at(0));
@@ -292,7 +293,7 @@ TEST(kd_algorithm, sanity) {
                            new Point(2, new double[2]{-2, 2}),
                            new Point(2, new double[2]{-2, -2})};
     KdAlgorithm alg;
-    alg.Init(&v);
+    alg.Init(&v, Metrics::GetEuclideanDistance);
     Point p1(2, new double[2]{0.5, 0.5});
     EXPECT_EQ(v.at(0), alg.Ann(&p1));
     Point p2(2, new double[2]{-5, -5});

@@ -11,7 +11,7 @@ class LshAlgorithm : public IAlgorithm {
 public:
     LshAlgorithm(int buckets = 0, int functions = 0) : buckets_number(buckets), functions_number(functions) { };
 
-    virtual void Init(std::vector<Point *> *points) override;
+    virtual void Init(std::vector<Point *> *points, double (*distance)(Point *p1, Point *p2)) override;
 
     virtual Point *Ann(Point *q) override;
 
@@ -27,6 +27,8 @@ private:
     int functions_number;
     int buckets_number;
     LshBucket **buckets = nullptr;
+
+    double (*metric)(Point *p1, Point *p2);
 };
 
 
