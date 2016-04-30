@@ -2,7 +2,7 @@
 #define NNCO_METRICS_H
 
 
-#include <c++/cmath>
+#include <cmath>
 #include "point.h"
 
 class Metrics {

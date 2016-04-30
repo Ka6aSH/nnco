@@ -2,8 +2,8 @@
 #define NNCO_BBF_ALGORITHM_H
 
 
-#include <c++/vector>
-#include <c++/queue>
+#include <vector>
+#include <queue>
 #include "ialgorithm.h"
 #include "bbf_node.h"
 #include "metrics.h"

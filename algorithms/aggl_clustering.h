@@ -2,9 +2,9 @@
 #define NNCO_AGGL_CLUSTERING_H
 
 
-#include <c++/queue>
-#include <c++/algorithm>
-#include <c++/unordered_map>
+#include <queue>
+#include <algorithm>
+#include <unordered_map>
 #include "ialgorithm.h"
 #include "cluster.h"
 

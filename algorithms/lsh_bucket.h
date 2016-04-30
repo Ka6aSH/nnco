@@ -2,10 +2,10 @@
 #define NNCO_LSH_BUCKET_H
 
 
-#include <c++/vector>
-#include <c++/map>
-#include <c++/algorithm>
-#include <c++/unordered_map>
+#include <vector>
+#include <map>
+#include <algorithm>
+#include <unordered_map>
 #include "point.h"
 #include "lsh_hash_function.h"
 

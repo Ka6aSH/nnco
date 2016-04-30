@@ -1,7 +1,7 @@
 #ifndef NNCO_IALGORITHM_H
 #define NNCO_IALGORITHM_H
 
-#include <c++/vector>
+#include <vector>
 #include "point.h"
 
 class IAlgorithm {

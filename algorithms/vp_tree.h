@@ -2,10 +2,10 @@
 #define NNCO_VP_TREE_H
 
 
-#include <c++/cstdlib>
-#include <c++/vector>
-#include <c++/algorithm>
-#include <c++/unordered_map>
+#include <cstdlib>
+#include <vector>
+#include <algorithm>
+#include <unordered_map>
 #include "point.h"
 #include "vp_node.h"
 #include "metrics.h"

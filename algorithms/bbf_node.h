@@ -2,10 +2,10 @@
 #define NNCO_BBF_NODE_H
 
 
-#include <c++/vector>
+#include <vector>
 #include "point.h"
-#include <c++/limits>
-#include <c++/algorithm>
+#include <limits>
+#include <algorithm>
 
 /**
  * The class describe the node on BBF-tree.

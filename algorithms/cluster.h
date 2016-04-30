@@ -2,7 +2,7 @@
 #define NNCO_CLUSTER_H
 
 
-#include <c++/vector>
+#include <vector>
 #include "point.h"
 
 class Cluster {

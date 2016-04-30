@@ -2,8 +2,8 @@
 #define NNCO_LINEAR_ALGORITHM_H
 
 
-#include <c++/algorithm>
-#include <c++/limits>
+#include <algorithm>
+#include <limits>
 #include "ialgorithm.h"
 #include "metrics.h"
 

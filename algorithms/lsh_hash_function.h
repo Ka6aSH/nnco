@@ -2,7 +2,7 @@
 #define NNCO_LSH_HASH_FUNCTION_H
 
 
-#include <c++/random>
+#include <random>
 #include "point.h"
 
 class LshHashFunction {

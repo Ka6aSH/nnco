@@ -2,8 +2,8 @@
 #define NNCO_LSH_ALGORITHM_H
 
 
-#include <c++/vector>
-#include <c++/cmath>
+#include <vector>
+#include <cmath>
 #include "ialgorithm.h"
 #include "lsh_bucket.h"
 

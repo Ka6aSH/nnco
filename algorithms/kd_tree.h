@@ -2,9 +2,9 @@
 #define NNCO_KD_TREE_H
 
 
-#include <c++/vector>
-#include <c++/cstdlib>
-#include <c++/algorithm>
+#include <vector>
+#include <cstdlib>
+#include <algorithm>
 #include "kd_node.h"
 
 /**
