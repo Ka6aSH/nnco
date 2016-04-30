@@ -17,3 +17,109 @@ TEST(metrics, euclidian_commutative) {
     EXPECT_DOUBLE_EQ(Metrics::GetEuclideanDistance(&p1, &p2),
                      Metrics::GetEuclideanDistance(&p2, &p1));
 }
+
+class MetricConditionTest : public ::testing::Test {
+private:
+    void FreeVec(std::vector<Point *> *vec) {
+        for (size_t i = 0; i < vec->size(); ++i)
+            delete vec->at(i);
+    }
+
+protected:
+    void SetUp() {
+        points = {
+                new Point(2, new double[2]{3, 3}),
+                new Point(2, new double[2]{3, 1}),
+                new Point(2, new double[2]{1, 3}),
+                new Point(2, new double[2]{1, 1}),
+                new Point(2, new double[2]{4, 4}),
+                new Point(2, new double[2]{4, 0}),
+                new Point(2, new double[2]{0, 4}),
+                new Point(2, new double[2]{0, 0})
+        };
+    }
+
+    void TearDown() {
+        FreeVec(&points);
+    }
+
+    void TestPositive(double (*distance)(Point *p1, Point *p2)) {
+        for (int i = 0; i < points.size(); ++i) {
+            for (int j = 0; j < points.size(); ++j) {
+                EXPECT_GE(distance(points[i], points[j]), 0);
+            }
+        }
+    }
+
+    void TestIdentity(double (*distance)(Point *p1, Point *p2)) {
+        for (int i = 0; i < points.size(); ++i) {
+            EXPECT_DOUBLE_EQ(distance(points[i], points[i]), 0);
+        }
+    }
+
+    void TestSymmetry(double (*distance)(Point *p1, Point *p2)) {
+        for (int i = 0; i < points.size(); ++i) {
+            for (int j = 0; j < points.size(); ++j) {
+                EXPECT_DOUBLE_EQ(distance(points[i], points[j]), distance(points[j], points[i]));
+            }
+        }
+    }
+
+    void TestTriangleInequality(double (*distance)(Point *p1, Point *p2)) {
+        for (int i = 0; i < points.size(); ++i) {
+            for (int j = 0; j < points.size(); ++j) {
+                for (int k = 0; k < points.size(); ++k) {
+                    double x_y = distance(points[i], points[j]);
+                    double x_z = distance(points[i], points[k]);
+                    double z_y = distance(points[k], points[j]);
+                    if (x_y < x_z + z_y)
+                        EXPECT_GE(x_z + z_y, x_y);
+                    else
+                        EXPECT_DOUBLE_EQ(x_z + z_y, x_y);
+                }
+            }
+        }
+    }
+
+    std::vector<Point *> points;
+};
+
+TEST_F(MetricConditionTest, euclidian) {
+    auto distance = Metrics::GetEuclideanDistance;
+    TestPositive(distance);
+    TestIdentity(distance);
+    TestSymmetry(distance);
+    TestTriangleInequality(distance);
+}
+
+TEST_F(MetricConditionTest, clark) {
+    auto distance = Metrics::GetClarkDistance;
+    TestPositive(distance);
+    TestIdentity(distance);
+    TestSymmetry(distance);
+    TestTriangleInequality(distance);
+}
+
+TEST_F(MetricConditionTest, penrose) {
+    auto distance = Metrics::GetPenroseDistance;
+    TestPositive(distance);
+    TestIdentity(distance);
+    TestSymmetry(distance);
+    TestTriangleInequality(distance);
+}
+
+TEST_F(MetricConditionTest, lorentzian_safe) {
+    auto distance = Metrics::GetLorentzianDistanceSafe;
+    TestPositive(distance);
+    TestIdentity(distance);
+    TestSymmetry(distance);
+    TestTriangleInequality(distance);
+}
+
+TEST_F(MetricConditionTest, lorentzian_unsafe) {
+    auto distance = Metrics::GetLorentzianDistanceUnsafe;
+    TestPositive(distance);
+    TestIdentity(distance);
+    TestSymmetry(distance);
+    TestTriangleInequality(distance);
+}
