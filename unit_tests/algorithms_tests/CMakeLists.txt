@@ -3,9 +3,7 @@ include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 add_executable(runAlgorithmTests
-        point_test.cpp
         kd_tree_test.cpp
-        metrics_test.cpp
         vp_tree_test.cpp
         bbf_tree_test.cpp
         lsh_test.cpp
