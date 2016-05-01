@@ -13,6 +13,8 @@ public:
     static std::vector<Point *> *ReadPoints(std::string path, int dimension);
 
     static void WritePoint(std::string path, std::vector<Point *> *points, std::string delim = " ");
+
+    static void WriteResult(std::string path, double, double, std::string delim = " ");
 };
 
 

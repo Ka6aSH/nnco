@@ -25,3 +25,11 @@ void IoOperations::WritePoint(std::string path, std::vector<Point *> *points, st
     }
     outfile.close();
 }
+
+void IoOperations::WriteResult(std::string path, double time, double quality, std::string delim) {
+    std::ofstream outfile(path);
+    outfile << time << delim << quality;
+    outfile.close();
+}
+
+

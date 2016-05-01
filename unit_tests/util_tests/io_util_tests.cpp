@@ -39,4 +39,5 @@ TEST_F(IoTest, write_read) {
         }
     }
     FreeVec(readed_points);
+    delete readed_points;
 }
