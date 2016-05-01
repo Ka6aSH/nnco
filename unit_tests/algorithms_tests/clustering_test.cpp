@@ -92,4 +92,3 @@ TEST(clustering_quality, external) {
         delete points_second[i];
     }
 }
-

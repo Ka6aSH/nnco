@@ -77,4 +77,3 @@ TEST_F(LinearTest, algorithm_sanity) {
     Point p4(2, new double[2]{3, 1.9999});
     EXPECT_EQ(points[1], alg.Ann(&p4));
 }
-

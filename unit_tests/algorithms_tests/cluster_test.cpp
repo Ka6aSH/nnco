@@ -55,4 +55,3 @@ TEST_F(ClusterTest, merging) {
     delete first_cluster;
     delete second_cluster;
 }
-
