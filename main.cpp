@@ -89,6 +89,7 @@ int main(int argc, char *argv[]) {
     double total_quality = 0;
     double total_time = 0;
     for (int i = 0; i < iterations; i++) {
+        std::cout << "Iteration: " << i << std::endl;
         auto alg = parseAlgorithm(params);
         auto clustering = new AgglClustering(points, alg, metric, clusters_number);
         clustering->Init();
@@ -112,6 +113,8 @@ int main(int argc, char *argv[]) {
         auto quality = ClusterQuality::CalculateQuality(clusters, metric);
         total_quality += quality;
         total_time += endTime - startTime;
+        std::cout << "\t Quality: " << quality << std::endl;
+        std::cout << "\t Time: " << endTime - startTime << std::endl;
         delete alg;
         delete clusters;
         delete clustering;
@@ -158,3 +161,15 @@ void PrintHelp() {
     std::cout << "\t \t -func: number of functions" << std::endl;
     std::cout << "\t default - Linear" << std::endl;
 }
+
+//
+//Функция, которая возвращает указатель на функцию,
+//          принимающую char и возвращающую функцию,
+//                  которая не имеет параметров и возвращает функцию,
+//                          которая не имеет параметров и возвращает функцию,
+//                              которая принимает указатель на float и возвращает int,
+// и принимает в качестве аргумента функцию, возвращающую int без параметров, с указателем на неё и вызовом.
+int (*(*(*(*foo(int (*bar)(void)))(char))(void))(void))(float *) {
+    return nullptr;
+}
+
