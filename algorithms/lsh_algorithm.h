@@ -9,7 +9,8 @@
 
 class LshAlgorithm : public IAlgorithm {
 public:
-    LshAlgorithm(int buckets = 0, int functions = 0) : buckets_number(buckets), functions_number(functions) { };
+    LshAlgorithm(int buckets = 0, int functions = 0, bool conservative = false)
+            : buckets_number(buckets), functions_number(functions), conservative(conservative) { };
 
     virtual void Init(std::vector<Point *> *points, double (*distance)(Point *p1, Point *p2)) override;
 
@@ -27,6 +28,8 @@ private:
     int functions_number;
     int buckets_number;
     LshBucket **buckets = nullptr;
+    bool conservative;
+    std::vector<Point *> node_points;
 
     double (*metric)(Point *p1, Point *p2);
 };

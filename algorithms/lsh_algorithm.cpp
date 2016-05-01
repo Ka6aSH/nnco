@@ -22,6 +22,8 @@ void LshAlgorithm::Init(std::vector<Point *> *points, double (*distance)(Point *
             b->AddPoint(points->at(j));
         buckets[i] = b;
     }
+    node_points.clear();
+    node_points.insert(node_points.begin(), points->begin(), points->end());
     metric = distance;
 }
 
@@ -44,16 +46,33 @@ Point *LshAlgorithm::Ann(Point *q) {
             }
         }
     }
+    if (res == nullptr) {
+        if (conservative) {
+            for (auto point = node_points.begin(); point != node_points.end(); ++point) {
+                if (*point != q) {
+                    temp_dist = metric(q, *point);
+                    if (temp_dist < dist) {
+                        res = *point;
+                        dist = temp_dist;
+                    }
+                }
+            }
+        } else {
+            return node_points[rand() % node_points.size()];
+        }
+    }
     return res;
 }
 
 void LshAlgorithm::InsertPoint(Point *point) {
+    node_points.push_back(point);
     for (int i = 0; i < buckets_number; i++) {
         buckets[i]->AddPoint(point);
     }
 }
 
 void LshAlgorithm::RemovePoint(Point *point) {
+    node_points.erase(std::remove(node_points.begin(), node_points.end(), point));
     for (int i = 0; i < buckets_number; i++) {
         buckets[i]->RemovePoint(point);
     }
