@@ -6,7 +6,7 @@
 #include <vector>
 #include <algorithm>
 #include <unordered_map>
-#include "point.h"
+#include <point.h>
 #include "vp_node.h"
 
 class VpTree {

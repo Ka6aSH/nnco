@@ -3,7 +3,7 @@
 
 
 #include <vector>
-#include "point.h"
+#include <point.h>
 #include <limits>
 #include <algorithm>
 

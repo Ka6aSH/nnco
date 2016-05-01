@@ -3,7 +3,7 @@
 
 
 #include <random>
-#include "point.h"
+#include <point.h>
 
 class LshHashFunction {
 public:

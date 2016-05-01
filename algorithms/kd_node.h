@@ -2,7 +2,7 @@
 #define NNCO_KD_NODE_H
 
 
-#include "point.h"
+#include <point.h>
 
 /**
  * The class describe the node on KD-tree.

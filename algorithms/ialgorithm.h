@@ -2,7 +2,7 @@
 #define NNCO_IALGORITHM_H
 
 #include <vector>
-#include "point.h"
+#include <point.h>
 
 class IAlgorithm {
 public:
