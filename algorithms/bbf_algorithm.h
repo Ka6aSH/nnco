@@ -22,12 +22,12 @@ public:
 
 class BbfAlgorithm : public IAlgorithm {
 public:
-    BbfAlgorithm(int leaf_points = 10, int node_number = -1) : root(nullptr),
+    BbfAlgorithm(int node_number = -1, int leaf_points = 10) : root(nullptr),
                                                                node_count(node_number),
                                                                node_part(-1),
                                                                leaf_points(leaf_points) { };
 
-    BbfAlgorithm(int leaf_points = 10, double node_part = -1) : root(nullptr),
+    BbfAlgorithm(double node_part = -1, int leaf_points = 10) : root(nullptr),
                                                                 node_count(-1),
                                                                 node_part(node_part),
                                                                 leaf_points(leaf_points) { };

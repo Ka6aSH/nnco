@@ -68,7 +68,7 @@ IAlgorithm *parseAlgorithm(arg_list *params) {
         case 4:
             node_number = params->count("-V") ? std::stod(params->at("-V")) : -1;
             points_number = params->count("-leaf") ? std::stoi(params->at("-leaf")) : 10;
-            return new BbfAlgorithm(points_number, node_number);
+            return new BbfAlgorithm(node_number, points_number);
         case 5:
             conservative = (bool) params->count("-brute");
             buckets = params->count("-buckets") ? std::stoi(params->at("-buckets")) : 0;
