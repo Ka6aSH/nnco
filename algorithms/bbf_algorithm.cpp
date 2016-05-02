@@ -77,8 +77,8 @@ Point *BbfAlgorithm::Ann(Point *q) {
     BbfNode *node_q = FindLeaf(q);
     auto node_points = node_q->get_node_points();
     int remain_views = node_count - node_points->size();
-    Point *result = node_points->at(0);
-    double distance = metric(result, q);
+    Point *result = nullptr;
+    double distance = std::numeric_limits<double>().max();
     double tempDistance;
     for (size_t i = 0; i < node_points->size(); ++i) {
         if (node_points->at(i) != q) {

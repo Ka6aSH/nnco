@@ -132,10 +132,12 @@ void BbfNode::RemovePoint(Point *p) {
     }
     if (temp_points->empty()) {
         if (actual->get_parent_node() != nullptr) {
-            BbfNode *left = actual->get_parent_node()->get_left_node();
-            BbfNode *right = actual->get_parent_node()->get_right_node();
-//            actual->get_parent_node()
-            actual->get_parent_node()->SplitNode();
+            BbfNode *parent = actual->get_parent_node();
+            BbfNode *left = parent->get_left_node();
+            BbfNode *right = parent->get_right_node();
+            parent->set_left_node(nullptr);
+            parent->set_right_node(nullptr);
+            parent->SplitNode();
             delete right;
             delete left;
         }
