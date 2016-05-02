@@ -66,7 +66,9 @@ void BbfAlgorithm::Init(std::vector<Point *> *points, double (*distance)(Point *
         delete BbfAlgorithm::root;
     BbfAlgorithm::metric = distance;
     BbfAlgorithm::root = new BbfNode(points, leaf_points);
-    if (node_count < 0) {
+    if (node_part > 0) {
+        node_count = (int) (node_part * points->size());
+    } else if (node_count <= 0) {
         node_count = points->size();
     }
 }

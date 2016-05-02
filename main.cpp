@@ -53,7 +53,7 @@ IAlgorithm *parseAlgorithm(arg_list *params) {
     if (!params->count("-alg")) {
         return new LinearAlgorithm();
     }
-    int node_number;
+    double node_number;
     int points_number;
     bool conservative;
     int buckets;
@@ -66,7 +66,7 @@ IAlgorithm *parseAlgorithm(arg_list *params) {
         case 3:
             return new VpAlgorithm();
         case 4:
-            node_number = params->count("-V") ? std::stoi(params->at("-V")) : -1;
+            node_number = params->count("-V") ? std::stod(params->at("-V")) : -1;
             points_number = params->count("-leaf") ? std::stoi(params->at("-leaf")) : 10;
             return new BbfAlgorithm(points_number, node_number);
         case 5:
@@ -148,12 +148,12 @@ void PrintHelp() {
     std::cout << "\t 4 - Lorentzian (Safe)" << std::endl;
     std::cout << "\t 5 - Lorentzian (Unsafe)" << std::endl;
     std::cout << "\t default - Euclidean" << std::endl;
-    std::cout << "-alg: nearest neigbour search algorithm" << std::endl;
+    std::cout << "-alg: nearest neighbor search algorithm" << std::endl;
     std::cout << "\t 1 - Linear" << std::endl;
     std::cout << "\t 2 - KD-tree" << std::endl;
     std::cout << "\t 3 - VP-tree" << std::endl;
     std::cout << "\t 4 - Best Bin First" << std::endl;
-    std::cout << "\t \t -V: V parameter" << std::endl;
+    std::cout << "\t \t -V: a percentage of points that is allowed to view" << std::endl;
     std::cout << "\t \t -leaf: node_leaf parameter" << std::endl;
     std::cout << "\t 5 - LSH" << std::endl;
     std::cout << "\t \t -brute: if nn did not found let do brute force search (default - select random)" << std::endl;
@@ -161,15 +161,3 @@ void PrintHelp() {
     std::cout << "\t \t -func: number of functions" << std::endl;
     std::cout << "\t default - Linear" << std::endl;
 }
-
-//
-//Функция, которая возвращает указатель на функцию,
-//          принимающую char и возвращающую функцию,
-//                  которая не имеет параметров и возвращает функцию,
-//                          которая не имеет параметров и возвращает функцию,
-//                              которая принимает указатель на float и возвращает int,
-// и принимает в качестве аргумента функцию, возвращающую int без параметров, с указателем на неё и вызовом.
-int (*(*(*(*foo(int (*bar)(void)))(char))(void))(void))(float *) {
-    return nullptr;
-}
-
