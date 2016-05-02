@@ -42,6 +42,8 @@ void BbfAlgorithm::PushIfBetter(std::priority_queue<Triple, std::vector<Triple>,
     double distance = std::numeric_limits<double>::max();
     int m;
     BbfNode *parent;
+    if (next == nullptr)
+        return;
     if (next->IsParent(prev)) {
         for (int i = 0; i < q->get_dim(); ++i) {
             distance = std::min(distance,
