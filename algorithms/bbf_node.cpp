@@ -91,7 +91,9 @@ void BbfNode::SplitNode() {
 
         if (points_left.size() != 0 && points_right.size() != 0) {
             BbfNode::left_node = new BbfNode(&points_left, BbfNode::leaf_points, this, lbb_left);
+            BbfNode::left_node->parent_m = m;
             BbfNode::right_node = new BbfNode(&points_right, BbfNode::leaf_points, this, lbb_right);
+            BbfNode::right_node->parent_m = m;
         } else {
             delete[] lbb_left[m];
             delete[] lbb_right[m];
@@ -168,7 +170,7 @@ BbfNode::~BbfNode(void) {
     delete right_node;
 
     if (parent != nullptr) {
-        delete[] lbb[parent->m];
+        delete[] lbb[parent_m];
     } else {
         for (int i = 0; i < BbfNode::dim; ++i) {
             delete[] lbb[i];

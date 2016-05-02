@@ -66,6 +66,8 @@ private:
 
     // Separation axis
     int m;
+    // Parent separation axis (for deleting)
+    int parent_m;
     // Separation coord on separation axis
     double median;
     // Deep of the node in a tree, 0 if a root
