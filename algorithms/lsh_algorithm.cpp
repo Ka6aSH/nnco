@@ -58,7 +58,11 @@ Point *LshAlgorithm::Ann(Point *q) {
                 }
             }
         } else {
-            return node_points[rand() % node_points.size()];
+            int idx = rand() % node_points.size();
+            while (node_points[idx] == q) {
+                idx = rand() % node_points.size();
+            }
+            return node_points[idx];
         }
     }
     return res;
