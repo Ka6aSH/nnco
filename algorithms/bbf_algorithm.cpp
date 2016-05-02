@@ -82,12 +82,13 @@ Point *BbfAlgorithm::Ann(Point *q) {
     Point *result = nullptr;
     double distance = std::numeric_limits<double>().max();
     double tempDistance;
-    for (size_t i = 0; i < node_points->size(); ++i) {
-        if (node_points->at(i) != q) {
-            tempDistance = metric(q, node_points->at(i));
+    for (auto iter = node_points->begin(); iter != node_points->end(); ++iter) {
+//    for (size_t i = 0; i < node_points->size(); ++i) {
+        if (*iter != q) {
+            tempDistance = metric(q, *iter);
             if (tempDistance < distance) {
                 distance = tempDistance;
-                result = node_points->at(i);
+                result = *iter;
             }
         }
     }
@@ -116,12 +117,21 @@ Point *BbfAlgorithm::Ann(Point *q) {
         } else {
             node_points = t.next->get_node_points();
             remain_views -= node_points->size();
-            for (size_t i = 0; i < node_points->size(); ++i) {
-                if (node_points->at(i) != q) {
-                    tempDistance = metric(q, node_points->at(i));
+//            for (size_t i = 0; i < node_points->size(); ++i) {
+//                if (node_points->at(i) != q) {
+//                    tempDistance = metric(q, node_points->at(i));
+//                    if (tempDistance < distance) {
+//                        distance = tempDistance;
+//                        result = node_points->at(i);
+//                    }
+//                }
+//            }
+            for (auto iter = node_points->begin(); iter != node_points->end(); ++iter) {
+                if (*iter != q) {
+                    tempDistance = metric(q, *iter);
                     if (tempDistance < distance) {
                         distance = tempDistance;
-                        result = node_points->at(i);
+                        result = *iter;
                     }
                 }
             }

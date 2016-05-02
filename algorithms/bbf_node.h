@@ -6,6 +6,7 @@
 #include <point.h>
 #include <limits>
 #include <algorithm>
+#include <unordered_set>
 
 /**
  * The class describe the node on BBF-tree.
@@ -21,13 +22,17 @@ public:
     // Recalculate tbb
     void InitTbb();
 
+    void UpdateTbb(Point *p);
+
+    void UpdateRemoveTbb(Point *p);
+
     // Split node if number in points
     void SplitNode();
 
     void InsertPoint(Point *p);
 
     void RemovePoint(Point *p);
-    
+
     bool Contains(Point *point);
 
     int get_sep_axis() const { return m; }
@@ -50,7 +55,7 @@ public:
 
     BbfNode *get_parent_node() const { return parent; }
 
-    std::vector<Point *> *get_node_points() { return &node_points; }
+    std::unordered_set<Point *> *get_node_points() { return &node_points; }
 
     ~BbfNode(void);
 
@@ -59,7 +64,7 @@ private:
     BbfNode *right_node;
     BbfNode *parent;
     // TODO check the usage, think it is excess
-    std::vector<Point *> node_points;
+    std::unordered_set<Point *> node_points;
     // 0 min 1 max
     double **tbb;
     double **lbb;

@@ -1,9 +1,10 @@
 #include "bbf_node.h"
 
 BbfNode::BbfNode(std::vector<Point *> *points, int leafPoints, BbfNode *parent, double **lbb) {
-    BbfNode::node_points.insert(BbfNode::node_points.begin(), points->begin(), points->end());
+    BbfNode::node_points.insert(points->begin(), points->end());
+//    BbfNode::node_points.insert(BbfNode::node_points.begin(), points->begin(), points->end());
     BbfNode::leaf_points = leafPoints;
-    BbfNode::dim = node_points.at(0)->get_dim();
+    BbfNode::dim = (*node_points.begin())->get_dim();
     BbfNode::parent = parent;
     if (parent != nullptr)
         BbfNode::deep = parent->deep + 1;
@@ -35,17 +36,57 @@ BbfNode::BbfNode(std::vector<Point *> *points, int leafPoints, BbfNode *parent, 
 }
 
 void BbfNode::InitTbb() {
+    if (node_points.empty())
+        return;
     for (int i = 0; i < BbfNode::dim; ++i) {
-        BbfNode::tbb[i][0] = BbfNode::node_points[0]->get_coord(i);
-        BbfNode::tbb[i][1] = BbfNode::node_points[0]->get_coord(i);
+        BbfNode::tbb[i][0] = (*node_points.begin())->get_coord(i);
+        BbfNode::tbb[i][1] = (*node_points.begin())->get_coord(i);
     }
 
     for (int i = 0; i < BbfNode::dim; ++i)
-        for (int j = 0; j < BbfNode::node_points.size(); ++j) {
-            if (BbfNode::tbb[i][0] > BbfNode::node_points[j]->get_coord(i))
-                BbfNode::tbb[i][0] = BbfNode::node_points[j]->get_coord(i);
-            if (BbfNode::tbb[i][1] < BbfNode::node_points[j]->get_coord(i))
-                BbfNode::tbb[i][1] = BbfNode::node_points[j]->get_coord(i);
+        for (auto iter = node_points.begin(); iter != node_points.end(); ++iter) {
+//        for (int j = 0; j < BbfNode::node_points.size(); ++j) {
+//            if (BbfNode::tbb[i][0] > BbfNode::node_points[j]->get_coord(i))
+//                BbfNode::tbb[i][0] = BbfNode::node_points[j]->get_coord(i);
+//            if (BbfNode::tbb[i][1] < BbfNode::node_points[j]->get_coord(i))
+//                BbfNode::tbb[i][1] = BbfNode::node_points[j]->get_coord(i);
+            if (BbfNode::tbb[i][0] > (*iter)->get_coord(i))
+                BbfNode::tbb[i][0] = (*iter)->get_coord(i);
+            if (BbfNode::tbb[i][1] < (*iter)->get_coord(i))
+                BbfNode::tbb[i][1] = (*iter)->get_coord(i);
+        }
+}
+
+void BbfNode::UpdateTbb(Point *p) {
+    for (int i = 0; i < BbfNode::dim; ++i) {
+        if (BbfNode::tbb[i][0] > p->get_coord(i))
+            BbfNode::tbb[i][0] = p->get_coord(i);
+        if (BbfNode::tbb[i][1] < p->get_coord(i))
+            BbfNode::tbb[i][1] = p->get_coord(i);
+    }
+}
+
+//TODO
+void BbfNode::UpdateRemoveTbb(Point *p) {
+    if (node_points.empty())
+        return;
+
+    bool recalc = false;
+    for (int i = 0; i < BbfNode::dim; ++i) {
+        if (BbfNode::tbb[i][0] == p->get_coord(i) || BbfNode::tbb[i][1] == p->get_coord(i)) {
+            recalc = true;
+            break;
+        }
+    }
+    if (!recalc)
+        return;
+
+    for (int i = 0; i < BbfNode::dim; ++i)
+        for (auto iter = node_points.begin(); iter != node_points.end(); ++iter) {
+            if (BbfNode::tbb[i][0] > (*iter)->get_coord(i))
+                BbfNode::tbb[i][0] = (*iter)->get_coord(i);
+            if (BbfNode::tbb[i][1] < (*iter)->get_coord(i))
+                BbfNode::tbb[i][1] = (*iter)->get_coord(i);
         }
 }
 
@@ -59,7 +100,7 @@ void BbfNode::SplitNode() {
             }
         }
         std::vector<double> coords;
-        for (auto i = BbfNode::node_points.begin(); i < BbfNode::node_points.end(); i++) {
+        for (auto i = BbfNode::node_points.begin(); i != BbfNode::node_points.end(); i++) {
             coords.push_back((*i)->get_coord(m));
         }
         std::nth_element(coords.begin(), coords.begin() + coords.size() / 2, coords.end());
@@ -83,7 +124,7 @@ void BbfNode::SplitNode() {
         std::vector<Point *> points_left;
         std::vector<Point *> points_right;
 
-        for (auto i = BbfNode::node_points.begin(); i < BbfNode::node_points.end(); i++)
+        for (auto i = BbfNode::node_points.begin(); i != BbfNode::node_points.end(); i++)
             if ((*i)->get_coord(BbfNode::m) < BbfNode::median)
                 points_left.push_back(*i);
             else
@@ -108,8 +149,8 @@ void BbfNode::InsertPoint(Point *p) {
     BbfNode *actual = temp;
     while (temp != nullptr) {
         actual = temp;
-        temp->get_node_points()->push_back(p);
-        temp->InitTbb();
+        temp->get_node_points()->insert(p);
+        temp->UpdateTbb(p);
         if (p->get_coord(temp->get_sep_axis()) < temp->get_sep_coord())
             temp = temp->get_left_node();
         else
@@ -121,12 +162,12 @@ void BbfNode::InsertPoint(Point *p) {
 void BbfNode::RemovePoint(Point *p) {
     BbfNode *temp = this;
     BbfNode *actual = temp;
-    std::vector<Point *> *temp_points = temp->get_node_points();
+    std::unordered_set<Point *> *temp_points = temp->get_node_points();
     while (temp != nullptr) {
         actual = temp;
         temp_points = temp->get_node_points();
-        temp_points->erase(std::remove(temp_points->begin(), temp_points->end(), p));
-        temp->InitTbb();
+        temp_points->erase(p);
+//        temp->UpdateRemoveTbb(p);
         if (p->get_coord(temp->get_sep_axis()) < temp->get_sep_coord())
             temp = temp->get_left_node();
         else
@@ -147,12 +188,7 @@ void BbfNode::RemovePoint(Point *p) {
 }
 
 bool BbfNode::Contains(Point *point) {
-    for (int i = 0; i < node_points.size(); ++i) {
-        if (node_points[i] == point) {
-            return true;
-        }
-    }
-    return false;
+    return BbfNode::node_points.count(point);
 }
 
 bool BbfNode::IsParent(BbfNode *node) {
