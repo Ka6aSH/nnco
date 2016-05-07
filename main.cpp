@@ -28,24 +28,24 @@ arg_list *ParseParam(int argc, char *argv[]) {
     return params;
 };
 
-double (*parseMetric(arg_list *params))(Point *, Point *) {
+std::pair<double (*)(Point *, Point *), double (*)(double, double, int)>
+parseMetric(arg_list *params) {
     if (!params->count("-m")) {
-        return Metrics::GetEuclideanDistance;
+        return {Metrics::GetEuclideanDistance, Metrics::GetEuclideanDistance};
     }
-
     switch (std::stoi(params->at("-m"))) {
         case 1:
-            return Metrics::GetEuclideanDistance;
+            return {Metrics::GetEuclideanDistance, Metrics::GetEuclideanDistance};
         case 2:
-            return Metrics::GetClarkDistance;
+            return {Metrics::GetClarkDistance, Metrics::GetClarkDistance};
         case 3:
-            return Metrics::GetPenroseDistance;
+            return {Metrics::GetPenroseDistance, Metrics::GetPenroseDistance};
         case 4:
-            return Metrics::GetLorentzianDistanceSafe;
+            return {Metrics::GetLorentzianDistanceSafe, Metrics::GetLorentzianDistance};
         case 5:
-            return Metrics::GetLorentzianDistanceUnsafe;
+            return {Metrics::GetLorentzianDistanceUnsafe, Metrics::GetLorentzianDistance};
         default:
-            return Metrics::GetEuclideanDistance;
+            return {Metrics::GetEuclideanDistance, Metrics::GetEuclideanDistance};
     }
 }
 
@@ -110,7 +110,7 @@ int main(int argc, char *argv[]) {
             std::cout << "Amount of points in clusters did not match! Expected: " << points->size()
             << " Actual: " << points_in_clusters << std::endl;
         }
-        auto quality = ClusterQuality::CalculateQuality(clusters, metric);
+        auto quality = ClusterQuality::CalculateQuality(clusters, metric.first);
         total_quality += quality;
         total_time += endTime - startTime;
         std::cout << "\t Quality: " << quality << std::endl;

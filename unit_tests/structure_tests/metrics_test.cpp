@@ -18,6 +18,8 @@ TEST(metrics, euclidian_commutative) {
                      Metrics::GetEuclideanDistance(&p2, &p1));
 }
 
+typedef double (*metric_t)(Point *p1, Point *p2);
+
 class MetricConditionTest : public ::testing::Test {
 private:
     void FreeVec(std::vector<Point *> *vec) {
@@ -85,7 +87,7 @@ protected:
 };
 
 TEST_F(MetricConditionTest, euclidian) {
-    auto distance = Metrics::GetEuclideanDistance;
+    metric_t distance = Metrics::GetEuclideanDistance;
     TestPositive(distance);
     TestIdentity(distance);
     TestSymmetry(distance);
@@ -93,7 +95,7 @@ TEST_F(MetricConditionTest, euclidian) {
 }
 
 TEST_F(MetricConditionTest, clark) {
-    auto distance = Metrics::GetClarkDistance;
+    metric_t distance = Metrics::GetClarkDistance;
     TestPositive(distance);
     TestIdentity(distance);
     TestSymmetry(distance);
@@ -101,7 +103,7 @@ TEST_F(MetricConditionTest, clark) {
 }
 
 TEST_F(MetricConditionTest, penrose) {
-    auto distance = Metrics::GetPenroseDistance;
+    metric_t distance = Metrics::GetPenroseDistance;
     TestPositive(distance);
     TestIdentity(distance);
     TestSymmetry(distance);
@@ -109,7 +111,7 @@ TEST_F(MetricConditionTest, penrose) {
 }
 
 TEST_F(MetricConditionTest, lorentzian_safe) {
-    auto distance = Metrics::GetLorentzianDistanceSafe;
+    metric_t distance = Metrics::GetLorentzianDistanceSafe;
     TestPositive(distance);
     TestIdentity(distance);
     TestSymmetry(distance);
@@ -117,7 +119,7 @@ TEST_F(MetricConditionTest, lorentzian_safe) {
 }
 
 TEST_F(MetricConditionTest, lorentzian_unsafe) {
-    auto distance = Metrics::GetLorentzianDistanceUnsafe;
+    metric_t distance = Metrics::GetLorentzianDistanceUnsafe;
     TestPositive(distance);
     TestIdentity(distance);
     TestSymmetry(distance);

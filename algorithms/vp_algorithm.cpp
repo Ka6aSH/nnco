@@ -1,6 +1,8 @@
 #include "vp_algorithm.h"
 
-void VpAlgorithm::Init(std::vector<Point *> *points, double (*distance)(Point *, Point *)) {
+void VpAlgorithm::Init(std::vector<Point *> *points,
+                       double (*distance)(Point *p1, Point *p2),
+                       double (*dimension_distance)(double p1, double p2, int dimension)) {
     if (points == nullptr || points->empty())
         return;
     if (VpAlgorithm::root != nullptr)

@@ -1,6 +1,8 @@
 #include "lsh_algorithm.h"
 
-void LshAlgorithm::Init(std::vector<Point *> *points, double (*distance)(Point *, Point *)) {
+void LshAlgorithm::Init(std::vector<Point *> *points,
+                        double (*distance)(Point *p1, Point *p2),
+                        double (*dimension_distance)(double p1, double p2, int dimension)) {
     if (buckets != nullptr) {
         for (int i = 0; i < buckets_number; ++i) {
             delete buckets[i];

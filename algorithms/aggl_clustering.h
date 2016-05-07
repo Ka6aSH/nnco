@@ -25,7 +25,7 @@ class AgglClustering {
 public:
     AgglClustering(std::vector<Point *> *points,
                    IAlgorithm *alg,
-                   double (*distance_func)(Point *, Point *),
+                   std::pair<double (*)(Point *, Point *), double (*)(double, double, int)>,
                    int cluster_number);
 
     void Init();
@@ -42,7 +42,7 @@ private:
     std::vector<Point *> points;
     std::unordered_map<Point *, Cluster *> clusters;
 
-    double (*metric)(Point *lhs, Point *rhs);
+    std::pair<double (*)(Point *, Point *), double (*)(double, double, int)> metric;
 };
 
 

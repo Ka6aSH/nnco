@@ -113,7 +113,7 @@ TEST_F(BbfTreeTest, paranting) {
 
 TEST_F(BbfTreeTest, search) {
     BbfAlgorithm alg(0, 3);
-    alg.Init(v, Metrics::GetEuclideanDistance);
+    alg.Init(v, Metrics::GetEuclideanDistance, Metrics::GetEuclideanDistance);
     Point p1(2, new double[2]{0, 0});
     EXPECT_EQ(v->at(7), alg.Ann(&p1));
     Point p2(2, new double[2]{-1, -1});
@@ -125,7 +125,7 @@ TEST_F(BbfTreeTest, search) {
 TEST_F(BbfTreeTest, insert) {
     BbfAlgorithm alg(0, 3);
     std::vector<Point *> sub_vec(v->begin(), v->begin() + v->size() / 2);
-    alg.Init(&sub_vec, Metrics::GetEuclideanDistance);
+    alg.Init(&sub_vec, Metrics::GetEuclideanDistance, Metrics::GetEuclideanDistance);
     for (auto iter = v->begin() + v->size() / 2; iter != v->end(); iter++) {
         alg.InsertPoint(*iter);
     }
@@ -137,7 +137,7 @@ TEST_F(BbfTreeTest, insert) {
 TEST_F(BbfTreeTest, remove) {
     BbfAlgorithm alg(0, 3);
     std::vector<Point *> sub_vec(v->begin(), v->begin() + v->size() / 2);
-    alg.Init(&sub_vec, Metrics::GetEuclideanDistance);
+    alg.Init(&sub_vec, Metrics::GetEuclideanDistance, Metrics::GetEuclideanDistance);
     for (auto iter = v->begin() + v->size() / 2; iter != v->end(); iter++) {
         alg.InsertPoint(*iter);
     }

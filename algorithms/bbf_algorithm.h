@@ -32,7 +32,9 @@ public:
                                                                 node_part(node_part),
                                                                 leaf_points(leaf_points) { };
 
-    virtual void Init(std::vector<Point *> *points, double (*distance)(Point *p1, Point *p2)) override;
+    virtual void Init(std::vector<Point *> *points,
+                      double (*distance)(Point *p1, Point *p2),
+                      double (*dimension_distance)(double p1, double p2, int dimension) = nullptr) override;
 
     virtual Point *Ann(Point *q) override;
 
@@ -51,6 +53,8 @@ private:
     int leaf_points;
 
     double (*metric)(Point *p1, Point *p2);
+
+    double (*dimension_metric)(double p1, double p2, int dimension);
 
     BbfNode *FindLeaf(Point *q);
 

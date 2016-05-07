@@ -9,7 +9,9 @@ class KdAlgorithm : public IAlgorithm {
 public:
     KdAlgorithm() { }
 
-    virtual void Init(std::vector<Point *> *points, double (*distance)(Point *p1, Point *p2)) override;
+    virtual void Init(std::vector<Point *> *points,
+                      double (*distance)(Point *p1, Point *p2),
+                      double (*dimension_distance)(double p1, double p2, int dimension) = nullptr) override;
 
     virtual Point *Ann(Point *q) override;
 
@@ -26,6 +28,8 @@ private:
     int dimension = 0;
 
     double (*metric)(Point *p1, Point *p2);
+
+    double (*dimension_metric)(double p1, double p2, int dimension);
 
     void NnsProblem(KdNode *root, Point *p, std::pair<KdNode *, double> *best, int axis);
 };

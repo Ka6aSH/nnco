@@ -1,6 +1,8 @@
 #include "kd_algorithm.h"
 
-void KdAlgorithm::Init(std::vector<Point *> *points, double (*distance)(Point *, Point *)) {
+void KdAlgorithm::Init(std::vector<Point *> *points,
+                       double (*distance)(Point *, Point *),
+                       double (*dimension_distance)(double p1, double p2, int dimension)) {
     if (points == nullptr || points->empty())
         return;
     if (KdAlgorithm::root != nullptr)
@@ -8,6 +10,7 @@ void KdAlgorithm::Init(std::vector<Point *> *points, double (*distance)(Point *,
     KdAlgorithm::dimension = points->at(0)->get_dim();
     std::vector<Point *> copy(*points);
     KdAlgorithm::metric = distance;
+    KdAlgorithm::dimension_metric = dimension_distance;
     KdAlgorithm::root = KdTree::BuildTree(&copy, 0, KdAlgorithm::dimension);
 }
 
@@ -22,9 +25,11 @@ void KdAlgorithm::NnsProblem(KdNode *root, Point *query, std::pair<KdNode *, dou
         return;
     }
     double d = KdAlgorithm::metric(root->get_point(), query);
-    Point p_q(1, new double[1]{query->get_coord(axis)});
-    Point p_r(1, new double[1]{root->get_coord(axis)});
-    double dx = KdAlgorithm::metric(&p_q, &p_r);
+//    Point p_q(1, new double[1]{query->get_coord(axis)});
+//    Point p_r(1, new double[1]{root->get_coord(axis)});
+//    double dx = root->get_coord(axis) - query->get_coord(axis);
+    double dx = dimension_metric(root->get_coord(axis), query->get_coord(axis), query->get_dim());
+//    double dx = KdAlgorithm::metric(&p_q, &p_r);
     if (!root->is_dead() && root->get_point() != query && (best->first == nullptr || d < best->second)) {
         best->first = root;
         best->second = d;

@@ -1,6 +1,8 @@
 #include "linear_algorithm.h"
 
-void LinearAlgorithm::Init(std::vector<Point *> *points, double (*distance)(Point *, Point *)) {
+void LinearAlgorithm::Init(std::vector<Point *> *points,
+                           double (*distance)(Point *p1, Point *p2),
+                           double (*dimension_distance)(double p1, double p2, int dimension)) {
     if (LinearAlgorithm::points != nullptr) {
         delete LinearAlgorithm::points;
     }

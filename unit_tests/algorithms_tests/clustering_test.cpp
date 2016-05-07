@@ -16,7 +16,7 @@ TEST(clustering, sanity) {
                                 new Point(2, new double[2]{3.5, 5}),
                                 new Point(2, new double[2]{0, 2})};
     IAlgorithm *algorithm = new LinearAlgorithm();
-    AgglClustering clustering(&points, algorithm, Metrics::GetEuclideanDistance, 3);
+    AgglClustering clustering(&points, algorithm, {Metrics::GetEuclideanDistance, Metrics::GetEuclideanDistance}, 3);
     clustering.Init();
     clustering.RunClustering();
     auto result = clustering.GetClusters();
@@ -43,10 +43,12 @@ TEST(clustering_quality, internal) {
                                        new Point(2, new double[2]{2, 2}),
                                        new Point(2, new double[2]{2, 0})};
     IAlgorithm *algorithm = new LinearAlgorithm();
-    AgglClustering clustering1(&points_first, algorithm, Metrics::GetEuclideanDistance, 1);
+    AgglClustering clustering1(&points_first, algorithm, {Metrics::GetEuclideanDistance, Metrics::GetEuclideanDistance},
+                               1);
     clustering1.Init();
     clustering1.RunClustering();
-    AgglClustering clustering2(&points_second, algorithm, Metrics::GetEuclideanDistance, 1);
+    AgglClustering clustering2(&points_second, algorithm,
+                               {Metrics::GetEuclideanDistance, Metrics::GetEuclideanDistance}, 1);
     clustering2.Init();
     clustering2.RunClustering();
     auto result_cluster_1 = clustering1.GetClusters();
@@ -73,10 +75,12 @@ TEST(clustering_quality, external) {
                                        new Point(2, new double[2]{2, 2}),
                                        new Point(2, new double[2]{2, 0})};
     IAlgorithm *algorithm = new LinearAlgorithm();
-    AgglClustering clustering1(&points_first, algorithm, Metrics::GetEuclideanDistance, 4);
+    AgglClustering clustering1(&points_first, algorithm, {Metrics::GetEuclideanDistance, Metrics::GetEuclideanDistance},
+                               4);
     clustering1.Init();
     clustering1.RunClustering();
-    AgglClustering clustering2(&points_second, algorithm, Metrics::GetEuclideanDistance, 4);
+    AgglClustering clustering2(&points_second, algorithm,
+                               {Metrics::GetEuclideanDistance, Metrics::GetEuclideanDistance}, 4);
     clustering2.Init();
     clustering2.RunClustering();
     auto result_cluster_1 = clustering1.GetClusters();
