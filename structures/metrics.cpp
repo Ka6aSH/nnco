@@ -10,7 +10,7 @@ double Metrics::GetEuclideanDistance(Point *p1, Point *p2) {
 }
 
 double Metrics::GetEuclideanDistance(double p1, double p2, int dim) {
-    return (p1 - p2);
+    return std::abs(p1 - p2);
 }
 
 double Metrics::GetClarkDistance(Point *p1, Point *p2) {
@@ -43,7 +43,7 @@ double Metrics::GetPenroseDistance(Point *p1, Point *p2) {
 }
 
 double Metrics::GetPenroseDistance(double p1, double p2, int dim) {
-    return (p1 - p2) * std::sqrt(dim);
+    return std::abs(p1 - p2) * std::sqrt(dim);
 }
 
 double Metrics::GetLorentzianDistanceSafe(Point *p1, Point *p2) {
