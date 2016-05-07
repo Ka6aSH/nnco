@@ -46,16 +46,18 @@ void BbfAlgorithm::PushIfBetter(std::priority_queue<Triple, std::vector<Triple>,
         return;
     if (next->IsParent(prev)) {
         for (int i = 0; i < q->get_dim(); ++i) {
-            distance = std::min(distance,
-                                std::min(
-                                        std::abs(q->get_coord(i) - prev->get_lbb(i, false)),
-                                        std::abs(q->get_coord(i) - prev->get_lbb(i, true))));
+            Point p_q(1, new double[1]{q->get_coord(i)});
+            Point p_lbb_min(1, new double[1]{prev->get_lbb(i, false)});
+            Point p_lbb_max(1, new double[1]{prev->get_lbb(i, true)});
+            distance = std::min(distance, std::min(metric(&p_q, &p_lbb_min), metric(&p_q, &p_lbb_max)));
         }
     } else {
         parent = Lca(next, node_q);
         m = parent->get_sep_axis();
-        distance = std::min(std::abs(q->get_coord(m) - next->get_tbb(m, false)),
-                            std::abs(q->get_coord(m) - next->get_tbb(m, true)));
+        Point p_q(1, new double[1]{q->get_coord(m)});
+        Point p_tbb_min(1, new double[1]{next->get_tbb(m, false)});
+        Point p_tbb_max(1, new double[1]{next->get_tbb(m, true)});
+        distance = std::min(metric(&p_q, &p_tbb_min), metric(&p_q, &p_tbb_max));
     }
     if (distance < dist) {
         Triple t = {distance, next, prev};

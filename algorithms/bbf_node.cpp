@@ -16,7 +16,7 @@ BbfNode::BbfNode(std::vector<Point *> *points, int leafPoints, BbfNode *parent, 
         double *temp;
         for (int i = 0; i < BbfNode::dim; ++i) {
             temp = new double[2];
-            temp[0] = std::numeric_limits<double>::min();
+            temp[0] = std::numeric_limits<double>::lowest();
             temp[1] = std::numeric_limits<double>::max();
             BbfNode::lbb[i] = temp;
         }

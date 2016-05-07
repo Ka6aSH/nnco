@@ -22,7 +22,9 @@ void KdAlgorithm::NnsProblem(KdNode *root, Point *query, std::pair<KdNode *, dou
         return;
     }
     double d = KdAlgorithm::metric(root->get_point(), query);
-    double dx = root->get_coord(axis) - query->get_coord(axis);
+    Point p_q(1, new double[1]{query->get_coord(axis)});
+    Point p_r(1, new double[1]{root->get_coord(axis)});
+    double dx = KdAlgorithm::metric(&p_q, &p_r);
     double dx2 = dx * dx;
     if (!root->is_dead() && root->get_point() != query && (best->first == nullptr || d < best->second)) {
         best->first = root;
