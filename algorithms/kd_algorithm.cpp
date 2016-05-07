@@ -27,20 +27,21 @@ void KdAlgorithm::NnsProblem(KdNode *root, Point *query, std::pair<KdNode *, dou
     double d = KdAlgorithm::metric(root->get_point(), query);
 //    Point p_q(1, new double[1]{query->get_coord(axis)});
 //    Point p_r(1, new double[1]{root->get_coord(axis)});
-//    double dx = root->get_coord(axis) - query->get_coord(axis);
-    double dx = dimension_metric(root->get_coord(axis), query->get_coord(axis), query->get_dim());
+    double dx = root->get_coord(axis) - query->get_coord(axis);
+    double subtree_distance = dimension_metric(root->get_coord(axis), query->get_coord(axis), query->get_dim());
 //    double dx = KdAlgorithm::metric(&p_q, &p_r);
     if (!root->is_dead() && root->get_point() != query && (best->first == nullptr || d < best->second)) {
         best->first = root;
         best->second = d;
     }
+
     axis = (axis + 1) % KdAlgorithm::dimension;
     if (dx > 0) {
         NnsProblem(root->get_left(), query, best, axis);
     } else {
         NnsProblem(root->get_right(), query, best, axis);
     }
-    if (dx >= best->second) {
+    if (subtree_distance >= best->second) {
         return;
     }
     if (dx > 0) {
